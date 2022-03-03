@@ -1,1 +1,0 @@
-SELECT * FROM `rj-escritorio.educacao_basica_staging.aluno` LIMIT 1000
