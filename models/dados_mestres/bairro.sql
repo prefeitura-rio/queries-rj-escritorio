@@ -9,5 +9,5 @@ SELECT
     SAFE_CAST(Area AS FLOAT64) area,
     SAFE_CAST(SHAPESTLength AS FLOAT64) perimetro, 
     SAFE_CAST(geometry AS STRING) geometry, # TODO, resolver id_bairro = '004' e converter para GEOGRAPHY
-FROM `rj-escritorio-dev.diretorio_staging.bairro`
+FROM `rj-escritorio-dev.dados_mestres_staging.bairro`
 

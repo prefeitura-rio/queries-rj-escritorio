@@ -31,9 +31,9 @@ clean-targets: # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 models:
   rj_escritorio:
-    diretorio:
+    dados_mestres:
       +materialized: table
-      +schema: diretorio
+      +schema: dados_mestres
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view # Materialization type (view, table or incremental)

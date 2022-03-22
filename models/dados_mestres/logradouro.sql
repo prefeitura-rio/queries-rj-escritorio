@@ -16,4 +16,4 @@ SELECT
     SAFE_CAST(HIERARQUIA AS STRING) hierarquia,
     SAFE_CAST(REGEXP_REPLACE(CHAVEGEO_TR, r'\.0$', '') AS STRING) id_chavegeo,
     ST_GEOGFROMTEXT(geometry) AS geometry,
-FROM `rj-escritorio-dev.diretorio_staging.logradouro` 
+FROM `rj-escritorio-dev.dados_mestres_staging.logradouro` 
