@@ -4,7 +4,7 @@ SELECT
     SAFE_CAST(estado AS STRING) estado,
     SAFE_CAST(municipio AS STRING) municipio,
     SAFE_CAST(bairro AS STRING) bairro,
-    SAFE_CAST(REGEXP_REPLACE(id_logradouro, r'\.0$', '') AS STRING) id_logradouro,
+    LPAD(SAFE_CAST(REGEXP_REPLACE(id_logradouro, r'\.0$', '') AS STRING), 6, '0') id_logradouro,
     SAFE_CAST(logradouro AS STRING) logradouro,
     SAFE_CAST(numero_porta AS INT64) numero_porta,
     SAFE_CAST(latitude AS FLOAT64) latitude,
