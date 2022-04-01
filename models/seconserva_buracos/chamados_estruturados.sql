@@ -1,3 +1,36 @@
+{{ config(
+  materialized='table',
+  udf='''
+      CREATE TEMP FUNCTION BAIRROS_DICT(bairro STRING)
+      RETURNS STRING
+      LANGUAGE js AS """
+        var dict = {
+        "Andarai": "Andaraí",
+        "Bráz de Pina": "Braz de Pina",
+        "Freguesia (ilha)": "Freguesia (Ilha)",
+        "Freguesia (Jacarepagua)": "Freguesia (Jacarepaguá)",
+        "Gambôa": "Gamboa",
+        "Grajau": "Grajaú",
+        "Inhauma": "Inhaúma",
+        "Jacarepagua": "Jacarepaguá",
+        "Jardim America": "Jardim América",
+        "Meier": "Méier",
+        "Quintino Bocaiuva": "Quintino Bocaiúva",
+        "Váz Lobo": "Vaz Lobo",
+        "Imperial de São Cristovão": "Imperial de São Cristóvão",
+        };
+
+        if (Object.keys(dict).indexOf(bairro) > -1) {
+            traducao = dict[bairro];
+        } else {
+            traducao = bairro;
+        }
+        return traducao;
+    """;
+  '''
+)-}
+
+
 WITH waze_inicial AS (
     SELECT
     ts,
@@ -136,7 +169,7 @@ WITH waze_inicial AS (
     unidade_organizacional,
     '1746'  as origem_ocorrencia,
     categoria,
-    seconserva_buracos.BAIRROS_DICT(TRIM(bairro_chamado)) as bairro,
+    BAIRROS_DICT(TRIM(bairro_chamado)) as bairro,
     logradouro as logradouro,
     numero_porta as endereco_numero,
     -- ds_endereco_cep
@@ -181,7 +214,7 @@ WITH waze_inicial AS (
     NULL as unidade_organizacional,
     identificador_tabela as origem_ocorrencia,
     NULL as categoria,
-    seconserva_buracos.BAIRROS_DICT(TRIM(bairro_logradouros)) as bairro,
+    BAIRROS_DICT(TRIM(bairro_logradouros)) as bairro,
     descricao_completa as logradouro,
     NULL as endereco_numero,
     -- ds_endereco_cep
