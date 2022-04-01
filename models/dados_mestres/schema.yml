@@ -1,0 +1,10 @@
+
+version: 2
+
+models:
+  - name: bairro
+    description: Bairros da Cidade do Rio de Janeiro
+
+    columns:
+      - name: id_bairro
+        description: Código do bairro dado pela prefeitura do Rio de Janeiro.
