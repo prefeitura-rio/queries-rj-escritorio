@@ -4,14 +4,14 @@ version: 2
 models:
   - name: bairro
     description: | 
-      Descrição	:	Bairros da Cidade do Rio de Janeiro
-      Frequência de atualização	:	Segundo aprovação / delimitação / implantação
-      Cobertura temporal	:	Segundo atualização
-      Órgão gestor dos dados	:	IPP / Câmara dos Vereadores
-      Publicado por (Nome)	:	IPP
-      Publicado por (E-mail)	:	contato.siurb@gmail.com
-      Banco de origem	:	srv000420/BaseGeo
-      View ou Tabela de Origem	:	BaseGeo.DBO.LimiteBairro
+      Descrição                : Bairros da Cidade do Rio de Janeiro
+      Frequência de atualização: Segundo aprovação / delimitação / implantação
+      Cobertura temporal       : Segundo atualização
+      Órgão gestor dos dados   : IPP / Câmara dos Vereadores
+      Publicado por (Nome)     : IPP
+      Publicado por (E-mail)   : contato.siurb@gmail.com
+      Banco de origem          : srv000420/BaseGeo
+      View ou Tabela de Origem : BaseGeo.DBO.LimiteBairro
 
     columns:
       - name: id_bairro
