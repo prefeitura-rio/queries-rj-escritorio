@@ -136,7 +136,7 @@ WITH waze_inicial AS (
     unidade_organizacional,
     '1746'  as origem_ocorrencia,
     categoria,
-    seconserva_buracos.BAIRROS_DICT(TRIM(bairro_chamado)) as bairro,
+    rj-escritorio-dev.seconserva_buracos.BAIRROS_DICT(TRIM(bairro_chamado)) as bairro,
     logradouro as logradouro,
     numero_porta as endereco_numero,
     -- ds_endereco_cep
@@ -181,7 +181,7 @@ WITH waze_inicial AS (
     NULL as unidade_organizacional,
     identificador_tabela as origem_ocorrencia,
     NULL as categoria,
-    seconserva_buracos.BAIRROS_DICT(TRIM(bairro_logradouros)) as bairro,
+    rj-escritorio-dev.seconserva_buracos.BAIRROS_DICT(TRIM(bairro_logradouros)) as bairro,
     descricao_completa as logradouro,
     NULL as endereco_numero,
     -- ds_endereco_cep
