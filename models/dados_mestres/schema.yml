@@ -1,36 +1,119 @@
-
-version: 2
-
 models:
-  - name: bairro
-    description: | 
-      Descrição                : Bairros da Cidade do Rio de Janeiro
-      Frequência de atualização: Segundo aprovação / delimitação / implantação
-      Cobertura temporal       : Segundo atualização
-      Órgão gestor dos dados   : IPP / Câmara dos Vereadores
-      Publicado por (Nome)     : IPP
-      Publicado por (E-mail)   : contato.siurb@gmail.com
-      Banco de origem          : srv000420/BaseGeo
-      View ou Tabela de Origem : BaseGeo.DBO.LimiteBairro
+- columns:
+  - description: Código do bairro dado pela prefeitura do Rio de Janeiro.
+    name: id_bairro
+  - description: Nome do bairro.
+    name: nome
+  - description: Código da área de planejamento onde está localizado a região de planejamento
+      do bairro. Ver atributo nome_regiao_planejamento.
+    name: id_area_planejamento
+  - description: Nome da região de planejamento. Deve respeitar o atributo id_regiao_planejamento.
+    name: nome_regiao_planejamento
+  - description: Código da região de planejamento onde está localizado o região administrativa
+      do bairro. Ver atributo REGIAO_ADM.
+    name: id_regiao_planejamento
+  - description: Código da região administrativa onde está locallizado o bairro.
+    name: id_regiao_administrativa
+  - description: Nome da região administrativa onde está localizado o bairro. Este
+      atributo deve respeitar o atributo id_regiao_administrativa.
+    name: nome_regiao_administrativa
+  - description: Área (m²) do bairro. Tem o mesmo valor do atributo SHAPE.STArea().
+    name: area
+  - description: Perímetro (m) do bairro.
+    name: perimetro
+  - description: Geometria do bairro no banco do ArcGIS.
+    name: geometry
+  description: '**Descrição:** Bairros da Cidade do Rio de Janeiro
 
-    columns:
-      - name: id_bairro
-        description: Código do bairro dado pela prefeitura do Rio de Janeiro.
-      - name: nome
-        description: Nome do bairro.
-      - name: id_area_planejamento
-        description: Código da área de planejamento onde está localizado a região de planejamento do bairro. Ver atributo RP.
-      - name: nome_regiao_planejamento
-        description: Nome da região de planejamento. Deve respeitar o atributo Cod_RP.
-      - name: id_regiao_planejamento
-        description: Código da região de planejamento onde está localizado o região administrativa do bairro. Ver atributo REGIAO_ADM.
-      - name: id_regiao_administrativa
-        description: Código da região administrativa onde está locallizado o bairro.
-      - name: nome_regiao_administrativa
-        description: Nome da região administrativa onde está localizado o bairro. Este atributo deve respeitar o atributo CODRA.
-      - name: area
-        description: Área (m²) do bairro. Tem o mesmo valor do atributo SHAPE.STArea().
-      - name: perimetro
-        description: Perímetro (m) do bairro.
-      - name: geometry
-        description: Geometria do bairro no banco do ArcGIS.
+    **Frequência de atualização:** Segundo aprovação / delimitação / implantação
+
+    **Cobertura temporal:** Segundo atualização
+
+    **Órgão gestor dos dados:** IPP / Câmara dos Vereadores
+
+    **Publicado por (Nome):** IPP
+
+    **Publicado por (E-mail):** contato.siurb@gmail.com
+
+    **Banco de origem:** srv000420/BaseGeo
+
+    **View ou Tabela de Origem:** BaseGeo.DBO.LimiteBairro
+
+    **Query de extração:** -
+
+    '
+  name: bairro
+- columns:
+  - description: Código oficial do logradouro dado pela prefeitura do Rio de Janeiro.
+    name: id_logradouro
+  - description: Nome do bairro onde está localizado o trecho de logradouro. Um trecho
+      pode passar por vários bairros. Este atributo indica um dos bairros contendo
+      o trecho. Deve respeitar o atributo Cod_Bairro.
+    name: nome
+  - description: Nome parcial do logradouro. Nome do logradouro sem o tipo do logradouro
+      ( rua,estrada, beco, travessa etc ) e sem a nobreza do logradouro.
+    name: nome_parcial
+  - description: Nome completo do logradouro. Nome do logradouro com tipo, nobreza
+      e nome parcial.
+    name: nome_completo
+  - description: Identificador único do trecho no banco de dados.
+    name: id_trecho
+  - description: 'Código de situação do trecho de logradouro. '
+    name: id_situacao_trecho
+  - description: Situação do trecho de logradouro. Por exemplo ativo, cancelado, rascunho.
+      Nesta disponibilização do IPP somente entraram os trechos ativos. Deve respeitar
+      o atributo COD_SIT_TRECHO.
+    name: situacao_trecho
+  - description: Código do tipo do logradouro dado pela prefeitura do Rio de Janeiro.
+      Por exemplo 41 é associado a rua.
+    name: id_tipo
+  - description: Tipo do logradouro por extenso. Por exemplo rua. Deve respeitar o
+      id_tipo.
+    name: tipo
+  - description: Código do bairro, dado pela prefeitura do Rio de Janeiro, do trecho
+      de logradouro. Ver o atributo nome.
+    name: id_bairro
+  - description: Numeração inicial do lado par do trecho de logradouro.
+    name: inicio_numero_porta_par
+  - description: Numeração final do lado par do trecho de logradouro.
+    name: final_numero_porta_par
+  - description: Numeração inicial do lado ímpar do trecho de logradouro.
+    name: inicio_numero_porta_impar
+  - description: Numeração final do lado ímpar do trecho de logradouro.
+    name: final_numero_porta_impar
+  - description: Hierarquia viária do trecho de logradouro. Por exemplo estrutural,
+      arterial primária, arterial secundária, coletora, local. Classificação relacionada
+      a regras para o tráfego que passa por ela, por exemplo fluxo de veículos, velocidade
+      máxima etc.
+    name: hierarquia
+  - description: Código Chavegeo calculado a partir das coordenadas X e Y do centro
+      do trecho de logradouro.
+    name: id_chavegeo
+  - description: Geometria do trecho de logradouro no banco do ArcGIS.
+    name: geometry
+  description: '**Descrição:** Trechos ativos de logradouros do município do Rio de
+    Janeiro. Trecho de logradouro é um pedaço do logradouro, no caso de uma rua vai
+    de uma esquina à outra. Logradouro é qualquer espaço público comum que pode ser
+    usufruído por toda a população (reconhecidos formalmente ou não, de conhecimento
+    da prefeitura do Rio de Janeiro), como largos, praças, ruas, jardins, parques,
+    entre outros.
+
+    **Frequência de atualização:** Segundo aprovação / delimitação / implantação
+
+    **Cobertura temporal:** Segundo atualização
+
+    **Órgão gestor dos dados:** IPP / SMPU
+
+    **Publicado por (Nome):** IPP
+
+    **Publicado por (E-mail):** contato.siurb@gmail.com
+
+    **Banco de origem:** srv000420/Bd_Logradouros
+
+    **View ou Tabela de Origem:** Bd_Logradouros.DBO.TRECHOS e Bd_Logradouros.DBO.LOGRADOUROS
+
+    **Query de extração:** -
+
+    '
+  name: logradouro
+version: 2
