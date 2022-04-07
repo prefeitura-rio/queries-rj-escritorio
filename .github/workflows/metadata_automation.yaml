@@ -2,9 +2,7 @@ name: Metadata Automation
 
 on:
   pull_request:
-  push:
-    branches:
-      - feat/add-logradouro-metadata
+
 env:
   GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
 
