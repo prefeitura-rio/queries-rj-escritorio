@@ -1,3 +1,7 @@
+{{ config(
+  persist_docs={"relation": true, "columns": true}
+) }}
+
 SELECT 
     SAFE_CAST(REGEXP_REPLACE(CL, r'\.0$', '') AS STRING) id_logradouro,
     SAFE_CAST(Nome AS STRING) nome,
