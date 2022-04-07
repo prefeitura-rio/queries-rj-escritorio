@@ -151,8 +151,7 @@ def load_ruamel():
     ruamel = ryaml.YAML()
     ruamel.default_flow_style = False
     ruamel.top_level_colon_align = True
-    ruamel.indent = 4
-    # ruamel.indent(mapping=2, sequence=4, offset=2)
+    ruamel.indent(mapping=2, sequence=4, offset=2)
     return ruamel
 
 
