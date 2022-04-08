@@ -84,14 +84,23 @@ def fetch_metadata_from_google_sheets(
         ],
     }
     """
+
     if not gspread_client:
         gspread_client = get_gspread_client()
     spreadsheet: BytesIO = download_spreadsheet(spreadsheet_id, gspread_client)
-    df_table_metadata = pd.read_excel(spreadsheet, sheet_name="tabela", header=None)
+
+    df_table_metadata = pd.read_excel(
+        spreadsheet, sheet_name="tabela", header=None
+    ).fillna(" ")
+
     df_columns_metadata = pd.read_excel(spreadsheet, sheet_name="colunas")
+    df_columns_metadata = df_columns_metadata[
+        (df_columns_metadata["Nome da coluna"].notnull())
+        & (df_columns_metadata["Tipo da coluna"].notnull())
+    ].fillna(" ")
+
     table_description = format_table_description(df_table_metadata)
     columns_metadata = format_columns_metadata(df_columns_metadata)
-
     return {
         "name": table_id,
         "description": table_description,
@@ -190,6 +199,5 @@ if __name__ == "__main__":
                     table["spreadsheet_id"],
                     table_id,
                 )
-
                 # Dump the metadata into the schema.yaml file
                 dump_metadata_into_schema_yaml(dataset_id, table_id, table_metadata)
