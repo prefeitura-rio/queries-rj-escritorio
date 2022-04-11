@@ -136,8 +136,8 @@ WITH waze_inicial AS (
     unidade_organizacional,
     '1746'  as origem_ocorrencia,
     categoria,
-    seconserva_buracos.BAIRROS_DICT(TRIM(bairro_chamado)) as bairro,
-    logradouro as logradouro,
+    `rj-escritorio-dev`.seconserva_buracos.BAIRROS_DICT(TRIM(bairro_chamado)) as bairro,
+    `rj-escritorio-dev`.seconserva_buracos.LOGRADOURO_TRANSLATE(logradouro) as logradouro,
     numero_porta as endereco_numero,
     -- ds_endereco_cep
     -- ds_endereco_referencia
@@ -159,7 +159,7 @@ WITH waze_inicial AS (
     EXTRACT(MONTH FROM data_fim) as data_fim_mes,
     EXTRACT(DAY FROM data_fim) as data_fim_dia,
     'Rio de Janeiro, RJ' cidade, -- colocando na mao mas na verdade deveria verificar se o ponto está ou não na cidade
-    CONCAT(logradouro, ' ', IFNULL(numero_porta, ''),', ', TRIM(bairro_chamado), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
+    CONCAT(`rj-escritorio-dev`.seconserva_buracos.LOGRADOURO_TRANSLATE(logradouro), ' ', IFNULL(numero_porta, ''),', ', TRIM(bairro_chamado), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
     hierarquia as hierarquia_viaria,
     ST_Y(wkt_geometry_1746) as latitude, 
     ST_X(wkt_geometry_1746) as longitude,
@@ -181,8 +181,8 @@ WITH waze_inicial AS (
     NULL as unidade_organizacional,
     identificador_tabela as origem_ocorrencia,
     NULL as categoria,
-    seconserva_buracos.BAIRROS_DICT(TRIM(bairro_logradouros)) as bairro,
-    descricao_completa as logradouro,
+    `rj-escritorio-dev`.seconserva_buracos.BAIRROS_DICT(TRIM(bairro_logradouros)) as bairro,
+    `rj-escritorio-dev`.seconserva_buracos.LOGRADOURO_TRANSLATE(descricao_completa) as logradouro,
     NULL as endereco_numero,
     -- ds_endereco_cep
     -- ds_endereco_referencia
@@ -202,7 +202,7 @@ WITH waze_inicial AS (
     NULL as data_fim_mes,
     NULL as data_fim_dia,
     'Rio de Janeiro, RJ' cidade, -- colocando na mao mas na verdade deveria verificar se o ponto está ou não na cidade
-    CONCAT(descricao_completa, ', ', TRIM(IFNULL(bairro_logradouros, '')), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
+    CONCAT(`rj-escritorio-dev`.seconserva_buracos.LOGRADOURO_TRANSLATE(descricao_completa), ', ', TRIM(IFNULL(bairro_logradouros, '')), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
     hierarquia as hierarquia_viaria,
     ST_Y(centroide_cluster) as latitude, 
     ST_X(centroide_cluster) as longitude,
