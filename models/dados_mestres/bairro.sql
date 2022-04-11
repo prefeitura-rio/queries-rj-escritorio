@@ -1,7 +1,3 @@
-{{ config(
-  persist_docs={"relation": true, "columns": true}
-) }}
-
 SELECT 
     SAFE_CAST(REGEXP_REPLACE(CODBAIRRO, r'\.0$', '') AS STRING) id_bairro,
     SAFE_CAST(NOME AS STRING) nome,
