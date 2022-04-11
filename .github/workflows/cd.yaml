@@ -52,4 +52,7 @@ jobs:
           ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_DBT:TAG=$IMAGE_NAME:$GITHUB_SHA
           ./kustomize build . | kubectl apply -n prefect-agent-rj-escritorio -f -
           ./kustomize build . | kubectl apply -n prefect-agent-rj-escritorio-dev -f -
-          kubectl get services -n prefect-agent-rj-escritorio
+          kubectl rollout status -w -n prefect-agent-rj-escritorio deployment/dbt-rpc-dev
+          kubectl rollout status -w -n prefect-agent-rj-escritorio deployment/dbt-rpc-prod
+          kubectl rollout status -w -n prefect-agent-rj-escritorio-dev deployment/dbt-rpc-dev
+          kubectl rollout status -w -n prefect-agent-rj-escritorio-dev deployment/dbt-rpc-prod
