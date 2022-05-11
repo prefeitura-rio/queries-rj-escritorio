@@ -22,7 +22,7 @@ SELECT
     SAFE_CAST(longitude AS FLOAT64) longitude,
     ST_GEOGPOINT(SAFE_CAST(longitude AS FLOAT64), SAFE_CAST(latitude AS FLOAT64)) AS geometry,
     SAFE_CAST(DATE_TRUNC(DATE(data_particao), month) AS DATE) data_particao,
-FROM rj-escritorio-dev.dados_mestres_staging.enderecos_geolocalizados_temp AS t
+FROM rj-escritorio-dev.dados_mestres_staging.enderecos_geolocalizados AS t
 
 
 {% if is_incremental() %}
