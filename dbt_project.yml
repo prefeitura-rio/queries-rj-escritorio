@@ -45,3 +45,6 @@ models:
     seconserva_buracos:
       +materialized: table
       +schema: seconserva_buracos
+    projeto_maprio:
+      +materialized: table
+      +schema: projeto_maprio
