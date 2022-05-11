@@ -6,7 +6,8 @@ models :
       \ temporal:** Segundo atualização\n**Órgão gestor dos dados:** IPP / Câmara\
       \ dos Vereadores\n**Publicado por (Nome):** IPP\n**Publicado por (E-mail):**\
       \ contato.siurb@gmail.com\n**Banco de origem:** srv000420/BaseGeo\n**View ou\
-      \ Tabela de Origem:** BaseGeo.DBO.LimiteBairro\n**Query de extração:** -\n"
+      \ Tabela de Origem:** BaseGeo.DBO.LimiteBairro\n**Query de extração:** -\n**\
+      \ :**  \n** :** MIgrada em 0/05/2022 por Edison Moreira\n"
     columns:
       - name: id_bairro
         description: Código do bairro dado pela prefeitura do Rio de Janeiro.
@@ -42,7 +43,8 @@ models :
       **Órgão gestor dos dados:** IPP / SMPU\n**Publicado por (Nome):** IPP\n**Publicado\
       \ por (E-mail):** contato.siurb@gmail.com\n**Banco de origem:** srv000420/Bd_Logradouros\n\
       **View ou Tabela de Origem:** Bd_Logradouros.DBO.TRECHOS e Bd_Logradouros.DBO.LOGRADOUROS\n\
-      **Query de extração:** -\n"
+      **Query de extração:** -\n** :**  \n** :**  \n** :** MIgrado em 10/05/22 por\
+      \ Edison Moreira\n"
     columns:
       - name: id_logradouro
         description: Código oficial do logradouro dado pela prefeitura do Rio de Janeiro.
