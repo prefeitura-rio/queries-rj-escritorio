@@ -1,6 +1,6 @@
 # Queries template
 
-Esse é um template para um pacote DBT a ser importado no [repositório principal](https://github.com/prefeitura-rio/queries), que irá gerar um servidor RPC para execução dos projetos.
+Esse é um template para um pacote DBT a ser importado no [repositório principal](https://github.com/prefeitura-rio/queries), que irá gerar um servidor RPC para execução dos projetos. 
 
 ## Como usar esse template
 
