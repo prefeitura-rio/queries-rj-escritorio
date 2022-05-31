@@ -5,7 +5,6 @@ WITH waze_inicial AS (
     subtype,
     long,
     lat,
-    number_thumbs_up,
     DATETIME(TIMESTAMP_SECONDS(5*24*60*60 * DIV(UNIX_SECONDS(TIMESTAMP(ts)) + 5*12*60*60, 5*24*60*60))) as ts_trunc, --aqui 5
     --CONCAT(ts, lat, long) as pre_chave,
     ST_GEOGPOINT(long,lat) as wkt_geometry_waze,
@@ -29,7 +28,6 @@ WITH waze_inicial AS (
     cluster_num,
     TO_BASE64(SHA256(CONCAT(ts_trunc, cluster_num))) as id_cluster_waze,
     ST_CENTROID_AGG(wkt_geometry_waze) centroide_cluster,
-    SUM(number_thumbs_up) as soma_thumbs_up,
     COUNT(*) contagem_buracos
     FROM waze_cluster
     GROUP BY identificador_tabela, ts_trunc, cluster_num
@@ -38,88 +36,56 @@ WITH waze_inicial AS (
     logradouros AS (
     SELECT 
     *,
-    ST_GEOGFROMTEXT(geometria) wkt_geometry_logradouros,
-    ST_SNAPTOGRID(ST_GEOGFROMTEXT(geometria), 0.00125) grid_logradouros,
-    ROW_NUMBER() OVER(PARTITION BY numero_trecho ORDER BY descricao_completa DESC) AS ordem_nome,
-    ROW_NUMBER() OVER(PARTITION BY id_logradouro ORDER BY numero_trecho DESC) AS ordem_trecho
-    FROM `rj-escritorio-dev.seconserva_buracos.logradouros_prefeitura`),
+    ST_GEOGFROMTEXT(geometry) wkt_geometry_logradouros,
+    ST_SNAPTOGRID(ST_GEOGFROMTEXT(geometry), 0.00125) grid_logradouros,
+    ROW_NUMBER() OVER(PARTITION BY cod_trecho ORDER BY completo DESC) AS ordem_nome,
+    ROW_NUMBER() OVER(PARTITION BY cl ORDER BY cod_trecho DESC) AS ordem_trecho
+    FROM `rj-escritorio-dev.dados_mestres_staging.logradouro`),
 
     d1746 AS (
     SELECT
     *,
-    coordenada_geografica wkt_geometry_1746,
+    ST_GEOGPOINT(longitude, latitude) wkt_geometry_1746,
+    lim.bairro as bairro_chamado,
     '1746' as identificador_tabela
-    FROM `rj-escritorio-dev.seconserva_buracos.chamados_1746_geolocalizados`
+    FROM `rj-segovi.administracao_servicos_publicos_1746.chamado` as d
+    LEFT JOIN `rj-escritorio-dev.seconserva_buracos.limites_gerencias` as lim
+    ON CAST(d.id_bairro as FLOAT64) = CAST(lim.id_bairro as FLOAT64)
     WHERE data_inicio >= '2021-01-01'
-        AND id_subtipo = '78'),
-
+      AND id_subtipo = '78'),
+ 
     join_waze AS (
     SELECT
     w.*,
     l.*,
-    l.bairro bairro_logradouros,
+    l.nome bairro_logradouros,
     lim.*,
-    FROM (SELECT * FROM waze WHERE contagem_buracos >= 2) as w
+    FROM waze as w
     LEFT JOIN logradouros as l 
     ON ST_INTERSECTS(w.centroide_cluster, ST_BUFFER(l.wkt_geometry_logradouros, 20))
-    LEFT JOIN `rj-escritorio-dev.seconserva_buracos.rj_riodejaneiro_bairros` as lim
-    ON CAST(l.id_bairro as FLOAT64) = CAST(lim.id_bairro as FLOAT64)
+    LEFT JOIN `rj-escritorio-dev.seconserva_buracos.limites_gerencias` as lim
+    ON CAST(l.cod_bairro as FLOAT64) = CAST(lim.id_bairro as FLOAT64)
     WHERE l.ordem_nome = 1),
 
     waze_one_street AS (
     SELECT 
     *, 
-    ROW_NUMBER() OVER(PARTITION BY id_cluster_waze ORDER BY id_logradouro DESC) AS RowNo
+    ROW_NUMBER() OVER(PARTITION BY id_cluster_waze ORDER BY cl DESC) AS RowNo
     FROM join_waze
     WHERE bairro_logradouros is not NULL),
     
-    join_1746_latlong AS (
-        WITH join_repetido AS (    
-            (SELECT
-            d.*,
-            d.bairro bairro_chamado,
-            l.*,
-            l.bairro bairro_logradouros
-            FROM (SELECT * FROM d1746 WHERE coordenada_geografica IS NOT NULL) as d
-            LEFT JOIN (SELECT * FROM logradouros WHERE ordem_nome = 1) as l 
-            ON ST_INTERSECTS(d.wkt_geometry_1746 , ST_BUFFER(l.wkt_geometry_logradouros, 20)))
-            )
-        
-        SELECT 
-        arr.*
-        FROM (
-            SELECT ARRAY_AGG(jr LIMIT 1)[OFFSET(0)] arr
-            FROM join_repetido jr
-            GROUP BY id_chamado
-        ) 
-    ), --join por latlong
-
-    join_1746_id_logradouro AS (
-        WITH join_repetido AS (    
-            (SELECT
-            d.*,
-            d.bairro bairro_chamado,
-            l.*,
-            l.bairro bairro_logradouros
-            FROM (SELECT * FROM d1746 WHERE coordenada_geografica IS NULL) as d
-            LEFT JOIN (SELECT * FROM logradouros WHERE ordem_nome = 1 AND ordem_trecho = 1) as l 
-            ON CAST(d.id_logradouro as FLOAT64) = CAST(l.id_logradouro as FLOAT64)))
-            
-        
-        SELECT 
-        arr.*
-        FROM (
-            SELECT ARRAY_AGG(jr LIMIT 1)[OFFSET(0)] arr
-            FROM join_repetido jr
-            GROUP BY id_chamado
-        ) 
-    ),
-
     join_1746 AS (
-        SELECT * FROM join_1746_latlong
-        UNION ALL 
-        SELECT * FROM join_1746_id_logradouro
-    ),
+    SELECT
+    d.*,
+    l.*,
+    l.completo as nome_logradouro,
+    l.nome as bairro_logradouros,
+    FROM d1746 as d
+    LEFT JOIN logradouros as l 
+    --ON ST_INTERSECTS(d.wkt_geometry_1746 , ST_BUFFER(l.wkt_geometry_logradouros, 20))
+    ON CAST(d.id_logradouro as FLOAT64) = CAST(l.cl as FLOAT64)
+    WHERE l.ordem_nome = 1
+            AND l.ordem_trecho = 1),
 
     ---COMECO UNION
     union_waze_1746 AS(
@@ -133,12 +99,12 @@ WITH waze_inicial AS (
     tipo,
     subtipo,
     -- ds_chamado as
-    unidade_organizacional,
+    nome_unidade_organizacional as unidade_organizacional,
     '1746'  as origem_ocorrencia,
     categoria,
-    `rj-escritorio-dev`.seconserva_buracos.BAIRROS_DICT(TRIM(bairro_chamado)) as bairro,
-    `rj-escritorio-dev`.seconserva_buracos.LOGRADOURO_TRANSLATE(logradouro) as logradouro,
-    numero_porta as endereco_numero,
+    TRIM(bairro_chamado) as bairro,
+    nome_logradouro as logradouro,
+    numero_logradouro as endereco_numero,
     -- ds_endereco_cep
     -- ds_endereco_referencia
     -- ds_endereco_complemento
@@ -159,11 +125,12 @@ WITH waze_inicial AS (
     EXTRACT(MONTH FROM data_fim) as data_fim_mes,
     EXTRACT(DAY FROM data_fim) as data_fim_dia,
     'Rio de Janeiro, RJ' cidade, -- colocando na mao mas na verdade deveria verificar se o ponto está ou não na cidade
-    CONCAT(`rj-escritorio-dev`.seconserva_buracos.LOGRADOURO_TRANSLATE(logradouro), ' ', IFNULL(numero_porta, ''),', ', TRIM(bairro_chamado), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
+    CONCAT(nome_logradouro, ' ', IFNULL(CAST(numero_logradouro AS STRING), ''),', ', TRIM(bairro_chamado), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
     hierarquia as hierarquia_viaria,
     ST_Y(wkt_geometry_1746) as latitude, 
     ST_X(wkt_geometry_1746) as longitude,
-    NULL as contagem_alertas_cluster_waze
+    NULL as contagem_alertas_cluster_waze,
+    numero_gerencia_conservacao_responsavel AS id_gerencia_responsavel
     FROM join_1746
 
     UNION ALL 
@@ -181,8 +148,8 @@ WITH waze_inicial AS (
     NULL as unidade_organizacional,
     identificador_tabela as origem_ocorrencia,
     NULL as categoria,
-    `rj-escritorio-dev`.seconserva_buracos.BAIRROS_DICT(TRIM(bairro_logradouros)) as bairro,
-    `rj-escritorio-dev`.seconserva_buracos.LOGRADOURO_TRANSLATE(descricao_completa) as logradouro,
+    TRIM(bairro_logradouros) as bairro,
+    completo as logradouro,
     NULL as endereco_numero,
     -- ds_endereco_cep
     -- ds_endereco_referencia
@@ -202,11 +169,12 @@ WITH waze_inicial AS (
     NULL as data_fim_mes,
     NULL as data_fim_dia,
     'Rio de Janeiro, RJ' cidade, -- colocando na mao mas na verdade deveria verificar se o ponto está ou não na cidade
-    CONCAT(`rj-escritorio-dev`.seconserva_buracos.LOGRADOURO_TRANSLATE(descricao_completa), ', ', TRIM(IFNULL(bairro_logradouros, '')), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
+    CONCAT(completo, ', ', TRIM(IFNULL(bairro_logradouros, '')), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
     hierarquia as hierarquia_viaria,
     ST_Y(centroide_cluster) as latitude, 
     ST_X(centroide_cluster) as longitude,
-    contagem_buracos as contagem_alertas_cluster_waze
+    contagem_buracos as contagem_alertas_cluster_waze,
+    numero_gerencia_conservacao_responsavel AS id_gerencia_responsavel
     FROM waze_one_street 
     WHERE RowNo = 1)
     ---FIM UNION
