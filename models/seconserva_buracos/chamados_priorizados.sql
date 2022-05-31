@@ -5,7 +5,7 @@ todos.*,
     WHEN (fechados.id_chamado IS NOT NULL and todos.origem_ocorrencia = 'waze')  THEN 'Fechado'
     WHEN todos.data_fim IS NOT NULL THEN 'Fechado'
     ELSE 'Aberto' END) AS status_retorno_fechamento
-FROM (SELECT * FROM `rj-escritorio-dev.seconserva_buracos.administracao_publica_seconserva_chamados_fechados` WHERE id_gerencia IS NOT NULL) AS fechados
+FROM (SELECT * FROM `rj-escritorio-dev.seconserva_buracos.retorno_chamados_fechados` WHERE id_gerencia IS NOT NULL) AS fechados
 RIGHT JOIN `rj-escritorio-dev.seconserva_buracos.chamados_estruturados` AS todos
     ON fechados.id_chamado = todos.id_chamado)
 
