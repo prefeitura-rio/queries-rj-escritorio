@@ -1,80 +1,77 @@
 version: 2
 models :
   - name: bairro
-    description: "**Descrição:** Bairros da Cidade do Rio de Janeiro\n**Frequência\
-      \ de atualização:** Segundo aprovação / delimitação / implantação\n**Cobertura\
-      \ temporal:** Segundo atualização\n**Órgão gestor dos dados:** IPP / Câmara\
-      \ dos Vereadores\n**Publicado por (Nome):** IPP\n**Publicado por (E-mail):**\
-      \ contato.siurb@gmail.com\n**Banco de origem:** srv000420/BaseGeo\n**View ou\
-      \ Tabela de Origem:** BaseGeo.DBO.LimiteBairro\n**Query de extração:** -\n**\
-      \ :**  \n** :** MIgrada em 0/05/2022 por Edison Moreira\n"
+    description: "**Descrição**: Bairros da Cidade do Rio de Janeiro\n**Frequência\
+      \ de atualização**: Mensal\n**Cobertura temporal**: Até a presente data\n**Órgão\
+      \ gestor dos dados**: Instituto Pereira Passos (IPP) / Câmara dos Vereadores\
+      \ (CMRJ)\n**Publicado por**: IPP\n**Publicado por (email)**: contato.siurb@gmail.com\n"
     columns:
+      - name: shape_area
+        description: Área (m²) do bairro. Calculado automaticamente pelo ArqGis.
       - name: id_bairro
         description: Código do bairro dado pela prefeitura do Rio de Janeiro.
       - name: nome
-        description: Nome do bairro.
+        description: Nome do bairro
       - name: id_area_planejamento
-        description: Código da área de planejamento onde está localizado a região
-          de planejamento do bairro. Ver atributo nome_regiao_planejamento.
+        description: "Código da área de planejamento onde está localizado a região\
+          \ de planejamento do bairro.\r\nVer atributo nome_regiao_planejamento."
       - name: nome_regiao_planejamento
-        description: Nome da região de planejamento. Deve respeitar o atributo id_regiao_planejamento.
+        description: "Nome da região de planejamento. \r\nDeve respeitar o atributo\
+          \ id_regiao_planejamento."
       - name: id_regiao_planejamento
         description: Código da região de planejamento onde está localizado o região
           administrativa do bairro. Ver atributo REGIAO_ADM.
       - name: id_regiao_administrativa
         description: Código da região administrativa onde está locallizado o bairro.
       - name: nome_regiao_administrativa
-        description: Nome da região administrativa onde está localizado o bairro.
-          Este atributo deve respeitar o atributo id_regiao_administrativa.
+        description: "Nome da região administrativa onde está localizado o bairro.\
+          \ \r\nEste atributo deve respeitar o atributo id_regiao_administrativa."
       - name: area
-        description: Área (m²) do bairro. Tem o mesmo valor do atributo SHAPE.STArea().
+        description: "Área (m²) do bairro. \r\nTem o mesmo valor do atributo SHAPE.STArea()."
       - name: perimetro
         description: Perímetro (m) do bairro.
       - name: geometry
         description: Geometria do bairro no banco do ArcGIS.
   - name: logradouro
-    description: "**Descrição:** Trechos ativos de logradouros do município do Rio\
-      \ de Janeiro. Trecho de logradouro é um pedaço do logradouro, no caso de uma\
-      \ rua vai de uma esquina à outra. Logradouro é qualquer espaço público comum\
+    description: "**Descrição**: Trechos ativos de logradouros do município do Rio\
+      \ de Janeiro. \r\nTrecho de logradouro é um pedaço do logradouro, no caso de\
+      \ uma rua vai de uma esquina à outra. Logradouro é qualquer espaço público comum\
       \ que pode ser usufruído por toda a população (reconhecidos formalmente ou não,\
       \ de conhecimento da prefeitura do Rio de Janeiro), como largos, praças, ruas,\
-      \ jardins, parques, entre outros.\n**Frequência de atualização:** Segundo aprovação\
-      \ / delimitação / implantação\n**Cobertura temporal:** Segundo atualização\n\
-      **Órgão gestor dos dados:** IPP / SMPU\n**Publicado por (Nome):** IPP\n**Publicado\
-      \ por (E-mail):** contato.siurb@gmail.com\n**Banco de origem:** srv000420/Bd_Logradouros\n\
-      **View ou Tabela de Origem:** Bd_Logradouros.DBO.TRECHOS e Bd_Logradouros.DBO.LOGRADOUROS\n\
-      **Query de extração:** -\n** :**  \n** :**  \n** :** MIgrado em 10/05/22 por\
-      \ Edison Moreira\n"
+      \ jardins, parques, entre outros.\n**Frequência de atualização**: Mensal\n**Cobertura\
+      \ temporal**: Até data corrente\n**Órgão gestor dos dados**: Instituto Pereira\
+      \ Passos (IPP) / Secretaria Municipal de Planejamento Urbano (SMPU)\n**Publicado\
+      \ por**: IPP\n**Publicado por (email)**: contato.siurb@gmail.com\n"
     columns:
       - name: id_logradouro
-        description: Código oficial do logradouro dado pela prefeitura do Rio de Janeiro.
+        description: Código oficial do logradouro dado pela Prefeitura do Rio de Janeiro.
       - name: nome
-        description: Nome do bairro onde está localizado o trecho de logradouro. Um
-          trecho pode passar por vários bairros. Este atributo indica um dos bairros
-          contendo o trecho. Deve respeitar o atributo Cod_Bairro.
+        description: "Nome do bairro onde está localizado o trecho de logradouro.\r\
+          \nUm trecho pode passar por vários bairros. \r\nEste atributo indica um\
+          \ dos bairros contendo o trecho. \r\nDeve respeitar o atributo Cod_Bairro."
       - name: nome_parcial
-        description: Nome parcial do logradouro. Nome do logradouro sem o tipo do
-          logradouro ( rua,estrada, beco, travessa etc ) e sem a nobreza do logradouro.
+        description: "Nome parcial do logradouro. \r\nNome do logradouro sem o tipo\
+          \ do logradouro (rua, estrada, beco, travessa etc ) e sem a nobreza do logradouro."
       - name: nome_completo
-        description: Nome completo do logradouro. Nome do logradouro com tipo, nobreza
-          e nome parcial.
+        description: "Nome completo do logradouro. \r\nNome do logradouro com tipo,\
+          \ nobreza e nome parcial."
       - name: id_trecho
         description: Identificador único do trecho no banco de dados.
       - name: id_situacao_trecho
-        description: 'Código de situação do trecho de logradouro. '
+        description: Código de situação do trecho de logradouro.
       - name: situacao_trecho
-        description: Situação do trecho de logradouro. Por exemplo ativo, cancelado,
-          rascunho. Nesta disponibilização do IPP somente entraram os trechos ativos.
-          Deve respeitar o atributo COD_SIT_TRECHO.
+        description: "Situação do trecho de logradouro.\r\nPor exemplo ativo, cancelado,\
+          \ rascunho. Nesta disponibilização do IPP somente entraram os trechos ativos.\
+          \ \r\nDeve respeitar o atributo COD_SIT_TRECHO."
       - name: id_tipo
-        description: Código do tipo do logradouro dado pela prefeitura do Rio de Janeiro.
-          Por exemplo 41 é associado a rua.
+        description: "Código do tipo do logradouro dado pela prefeitura do Rio de\
+          \ Janeiro.\r\nPor exemplo 41 é associado a rua."
       - name: tipo
-        description: Tipo do logradouro por extenso. Por exemplo rua. Deve respeitar
-          o id_tipo.
+        description: "Tipo do logradouro por extenso.\r\nPor exemplo rua. \r\nDeve\
+          \ respeitar o id_tipo."
       - name: id_bairro
-        description: Código do bairro, dado pela prefeitura do Rio de Janeiro, do
-          trecho de logradouro. Ver o atributo nome.
+        description: "Código do bairro, dado pela prefeitura do Rio de Janeiro, do\
+          \ trecho de logradouro.\r\nVer o atributo nome."
       - name: inicio_numero_porta_par
         description: Numeração inicial do lado par do trecho de logradouro.
       - name: final_numero_porta_par
@@ -84,10 +81,10 @@ models :
       - name: final_numero_porta_impar
         description: Numeração final do lado ímpar do trecho de logradouro.
       - name: hierarquia
-        description: Hierarquia viária do trecho de logradouro. Por exemplo estrutural,
-          arterial primária, arterial secundária, coletora, local. Classificação relacionada
-          a regras para o tráfego que passa por ela, por exemplo fluxo de veículos,
-          velocidade máxima etc.
+        description: "Hierarquia viária do trecho de logradouro. \r\nPor exemplo estrutural,\
+          \ arterial primária, arterial secundária, coletora, local. \r\nClassificação\
+          \ relacionada a regras para o tráfego que passa por ela.\r\nPor exemplo\
+          \ fluxo de veículos, velocidade máxima etc."
       - name: id_chavegeo
         description: Código Chavegeo calculado a partir das coordenadas X e Y do centro
           do trecho de logradouro.
