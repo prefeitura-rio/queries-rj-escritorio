@@ -5,12 +5,12 @@ WITH waze_inicial AS (
     subtype,
     long,
     lat,
-    DATETIME(TIMESTAMP_SECONDS(5*24*60*60 * DIV(UNIX_SECONDS(TIMESTAMP(ts)) + 5*12*60*60, 5*24*60*60))) as ts_trunc, --aqui 5
+    DATETIME(TIMESTAMP_SECONDS(7*24*60*60 * DIV(UNIX_SECONDS(TIMESTAMP(ts)) + 7*12*60*60, 7*24*60*60))) as ts_trunc, -- aqui 7 dias
     --CONCAT(ts, lat, long) as pre_chave,
     ST_GEOGPOINT(long,lat) as wkt_geometry_waze,
     'waze' as identificador_tabela
     FROM `rj-escritorio-dev.seconserva_buracos.alertas_waze`
-    WHERE long is not null and ts >= '2022-02-01'), --63,359
+    WHERE long is not null and DATE_DIFF(CURRENT_DATE(), ts, DAY) <= 30), -- o que não foi reportado nos últimos 30 dias deve ter sido fechado
 
     waze_cluster AS (
     SELECT 
@@ -19,7 +19,7 @@ WITH waze_inicial AS (
     ST_CLUSTERDBSCAN(wkt_geometry_waze, 30, 1) OVER (PARTITION BY ts_trunc) AS cluster_num, --aqui
     SAFE_CAST(FORMAT_DATE('%s', ts) AS INT64) AS ts_epoch,
     FROM waze_inicial
-    ORDER BY cluster_num, ts), -- 2174
+    ORDER BY cluster_num, ts),
 
   waze AS (
     SELECT
@@ -36,19 +36,20 @@ WITH waze_inicial AS (
     logradouros AS (
     SELECT 
     *,
-    ST_GEOGFROMTEXT(geometry) wkt_geometry_logradouros,
-    ST_SNAPTOGRID(ST_GEOGFROMTEXT(geometry), 0.00125) grid_logradouros,
-    ROW_NUMBER() OVER(PARTITION BY cod_trecho ORDER BY completo DESC) AS ordem_nome,
-    ROW_NUMBER() OVER(PARTITION BY cl ORDER BY cod_trecho DESC) AS ordem_trecho
-    FROM `rj-escritorio-dev.dados_mestres_staging.logradouro`),
+    geometry wkt_geometry_logradouros,
+    --ST_SNAPTOGRID(geometry, 0.00125) grid_logradouros,
+    ROW_NUMBER() OVER(PARTITION BY id_logradouro ORDER BY id_trecho DESC) AS ordem_trecho,
+    ROW_NUMBER() OVER(PARTITION BY id_trecho ORDER BY nome_completo DESC) AS ordem_nome
+    FROM `rj-escritorio-dev.dados_mestres.logradouro`),
 
     d1746 AS (
     SELECT
     *,
+    tipo as tipo_1746,
     ST_GEOGPOINT(longitude, latitude) wkt_geometry_1746,
     lim.bairro as bairro_chamado,
     '1746' as identificador_tabela
-    FROM `rj-segovi.administracao_servicos_publicos_1746.chamado` as d
+    FROM `rj-segovi.administracao_servicos_publicos.chamado_1746` as d
     LEFT JOIN `rj-escritorio-dev.seconserva_buracos.limites_gerencias` as lim
     ON CAST(d.id_bairro as FLOAT64) = CAST(lim.id_bairro as FLOAT64)
     WHERE data_inicio >= '2021-01-01'
@@ -61,31 +62,41 @@ WITH waze_inicial AS (
     l.nome bairro_logradouros,
     lim.*,
     FROM waze as w
-    LEFT JOIN logradouros as l 
-    ON ST_INTERSECTS(w.centroide_cluster, ST_BUFFER(l.wkt_geometry_logradouros, 20))
+    LEFT JOIN (SELECT * FROM logradouros WHERE ordem_nome = 1) as l -- isso retira trechos duplicados com mesmos id_trechos e geometry mas com nomes diferentes (acentos, typos, etc)
+    ON ST_INTERSECTS(w.centroide_cluster, ST_BUFFER(l.wkt_geometry_logradouros, 20)) -- buffer com 20 metros
     LEFT JOIN `rj-escritorio-dev.seconserva_buracos.limites_gerencias` as lim
-    ON CAST(l.cod_bairro as FLOAT64) = CAST(lim.id_bairro as FLOAT64)
-    WHERE l.ordem_nome = 1),
+    ON CAST(l.id_bairro as FLOAT64) = CAST(lim.id_bairro as FLOAT64)
+    ),
+
+    waze_one_trecho AS (
+      SELECT
+        id_cluster_waze,
+        id_logradouro,
+        MIN(ordem_trecho) primeiro_trecho
+      FROM join_waze
+      GROUP BY id_cluster_waze, id_logradouro
+    ),
 
     waze_one_street AS (
     SELECT 
     *, 
-    ROW_NUMBER() OVER(PARTITION BY id_cluster_waze ORDER BY cl DESC) AS RowNo
-    FROM join_waze
+    ROW_NUMBER() OVER(PARTITION BY id_cluster_waze ORDER BY id_logradouro DESC) AS ordem_logradouros
+    FROM (SELECT jw.* FROM join_waze as jw 
+          INNER JOIN waze_one_trecho as wot ON jw.id_cluster_waze = wot.id_cluster_waze AND jw.id_logradouro = wot.id_logradouro AND jw.ordem_trecho = wot.primeiro_trecho)
     WHERE bairro_logradouros is not NULL),
     
     join_1746 AS (
     SELECT
     d.*,
     l.*,
-    l.completo as nome_logradouro,
+    l.nome_completo as nome_logradouro,
     l.nome as bairro_logradouros,
     FROM d1746 as d
-    LEFT JOIN logradouros as l 
+    LEFT JOIN (SELECT * FROM logradouros WHERE ordem_nome = 1) as l -- isso retira trechos duplicados com mesmos id_trechos e geometry mas com nomes diferentes (acentos, typos, etc)
     --ON ST_INTERSECTS(d.wkt_geometry_1746 , ST_BUFFER(l.wkt_geometry_logradouros, 20))
-    ON CAST(d.id_logradouro as FLOAT64) = CAST(l.cl as FLOAT64)
-    WHERE l.ordem_nome = 1
-            AND l.ordem_trecho = 1),
+    ON d.id_logradouro = l.id_logradouro
+    WHERE l.ordem_trecho = 1), -- pegando apenas um trecho eu elimino linhas duplicadas, mas isso não é um problema pois as informações de localidade
+    -- que eu vou passar pro usuario final são o id_logradouro e a localização oriunda do chamado, nenhuma informação sobre o trecho em si
 
     ---COMECO UNION
     union_waze_1746 AS(
@@ -96,7 +107,7 @@ WITH waze_inicial AS (
     data_inicio, 
     data_fim,
     status,
-    tipo,
+    tipo_1746 as tipo,
     subtipo,
     -- ds_chamado as
     nome_unidade_organizacional as unidade_organizacional,
@@ -149,7 +160,7 @@ WITH waze_inicial AS (
     identificador_tabela as origem_ocorrencia,
     NULL as categoria,
     TRIM(bairro_logradouros) as bairro,
-    completo as logradouro,
+    nome_completo as logradouro,
     NULL as endereco_numero,
     -- ds_endereco_cep
     -- ds_endereco_referencia
@@ -169,14 +180,14 @@ WITH waze_inicial AS (
     NULL as data_fim_mes,
     NULL as data_fim_dia,
     'Rio de Janeiro, RJ' cidade, -- colocando na mao mas na verdade deveria verificar se o ponto está ou não na cidade
-    CONCAT(completo, ', ', TRIM(IFNULL(bairro_logradouros, '')), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
+    CONCAT(nome_completo, ', ', TRIM(IFNULL(bairro_logradouros, '')), ', Rio de Janeiro, RJ') endereco_completo, -- falta o numero de porta, mas nao tenho esse dado,
     hierarquia as hierarquia_viaria,
     ST_Y(centroide_cluster) as latitude, 
     ST_X(centroide_cluster) as longitude,
     contagem_buracos as contagem_alertas_cluster_waze,
     numero_gerencia_conservacao_responsavel AS id_gerencia_responsavel
-    FROM waze_one_street 
-    WHERE RowNo = 1)
+    FROM (SELECT * FROM waze_one_street WHERE ordem_logradouros = 1)
+    )
     ---FIM UNION
 
 SELECT 
