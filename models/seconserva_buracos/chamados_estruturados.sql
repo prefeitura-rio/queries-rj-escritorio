@@ -53,7 +53,7 @@ WITH waze_inicial AS (
     LEFT JOIN `rj-escritorio-dev.seconserva_buracos.limites_gerencias` as lim
     ON CAST(d.id_bairro as FLOAT64) = CAST(lim.id_bairro as FLOAT64)
     WHERE data_inicio >= '2021-01-01'
-      AND id_subtipo = '78'),
+      AND id_subtipo = '78'), -- COUNT(*) = 57988
  
     join_waze AS (
     SELECT
@@ -94,9 +94,10 @@ WITH waze_inicial AS (
     FROM d1746 as d
     LEFT JOIN (SELECT * FROM logradouros WHERE ordem_nome = 1) as l -- isso retira trechos duplicados com mesmos id_trechos e geometry mas com nomes diferentes (acentos, typos, etc)
     --ON ST_INTERSECTS(d.wkt_geometry_1746 , ST_BUFFER(l.wkt_geometry_logradouros, 20))
-    ON d.id_logradouro = l.id_logradouro
-    WHERE l.ordem_trecho = 1), -- pegando apenas um trecho eu elimino linhas duplicadas, mas isso não é um problema pois as informações de localidade
-    -- que eu vou passar pro usuario final são o id_logradouro e a localização oriunda do chamado, nenhuma informação sobre o trecho em si
+    ON LPAD(d.id_logradouro, 6, '0') = l.id_logradouro
+    WHERE l.ordem_trecho = 1 or l.ordem_trecho IS NULL), -- pegando apenas um trecho eu elimino linhas duplicadas, mas isso não é um problema pois as informações de localidade
+    -- que eu vou passar pro usuario final são o id_logradouro e a localização oriunda do chamado, nenhuma informação sobre o trecho em si. 
+    -- Pegando os NULL eu não elimino chamados cujo id_logradouro não foi encontrado na base de logradouros
 
     ---COMECO UNION
     union_waze_1746 AS(
