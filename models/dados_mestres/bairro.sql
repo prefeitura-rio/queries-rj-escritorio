@@ -10,7 +10,8 @@ SELECT
     SAFE_CAST(INITCAP(RTRIM(REGIAO_ADM)) AS STRING) nome_regiao_administrativa,
     SAFE_CAST(Area AS FLOAT64) area,
     SAFE_CAST(SHAPESTLength AS FLOAT64) perimetro, 
-    SAFE_CAST(geometry AS STRING) geometry, # TODO, resolver id_bairro = '004' e converter para GEOGRAPHY
+    SAFE.ST_GEOGFROMTEXT(geometry) geometria_wkt,
+    SAFE.ST_GEOGFROMTEXT(geometry) geometria # TODO, resolver id_bairro = '004' e converter para GEOGRAPHY
 FROM `rj-escritorio-dev.dados_mestres_staging.bairro`)
 SELECT 
   id_bairro,
@@ -23,7 +24,8 @@ SELECT
   t2.nome subprefeitura,
   area,
   perimetro,
-  geometry
+  geometria_wkt,
+  geometria
 FROM t
 LEFT JOIN `rj-escritorio-dev.dados_mestres.subprefeituras_regiao_adm` t2
 ON t.id_regiao_administrativa = cast(t2.id_regiao_administrativa as string)
