@@ -1,4 +1,4 @@
---CREATE OR REPLACE TABLE `rj-escritorio-dev.bases_avulsas.features_modelo_alagamento` AS (
+-- CREATE OR REPLACE TABLE `rj-escritorio-dev.bases_avulsas.features_modelo_alagamento` AS (
 -- WITH total_alerta_rio as (
 --   SELECT 
 --     *, 
@@ -43,7 +43,7 @@ WITH meteorologia as (
     EXTRACT(ISOWEEK FROM data_particao) semana,
     EXTRACT(DAYOFYEAR FROM data_particao) dia_do_ano
   FROM `rj-cor.meio_ambiente_clima.meteorologia_inmet`
-  --WHERE data_particao >= '2022-01-01'
+  WHERE data_particao >= '2016-01-01'
 )
 
 , acumulados as (
@@ -81,7 +81,7 @@ WITH meteorologia as (
     EXTRACT(YEAR FROM data_particao) ano,
     EXTRACT(ISOWEEK FROM data_particao) semana, 
   FROM `rj-cor.administracao_servicos_publicos.eventos`
-  WHERE id_pop IN ('5', '6', '31', '32', '33')
+  WHERE id_pop IN ('5', '6', '31', '32', '33') and data_particao >= '2016-01-01'
   ORDER BY id_evento
 )
 
