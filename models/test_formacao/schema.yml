@@ -11,6 +11,14 @@ models :
         description: Código do elemento.
       - name: elemento
         description: Nome do elemento, em inglês.
+      - name: indicador_air
+        description: Indica se o elemento da linha é Ar
+      - name: indicador_fire
+        description: Indica se o elemento da linha é Fogo
+      - name: indicador_water
+        description: Indica se o elemento da linha é Água
+      - name: indicador_earth
+        description: Indica se o elemento da linha é Terra
   - name: paises_americanos
     description: "**Descrição**: Tabelas com todos os países da América e informações sobre eles. \
     Utilizado como exemplo para a Formação Infra 2022 do Escritório de Dados do Rio de Janeiro\n\
