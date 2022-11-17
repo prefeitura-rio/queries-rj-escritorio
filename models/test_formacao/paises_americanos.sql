@@ -9,3 +9,4 @@ SELECT
   pais,
   capital
 FROM `rj-escritorio-dev.test_formacao_staging.test_table`
+WHERE STARTS_WITH(capital, "{{var('PAISES_AMERICANOS_LETRA_INICIAL_CAPITAL')}}")
