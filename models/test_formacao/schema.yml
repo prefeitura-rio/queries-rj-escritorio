@@ -24,3 +24,8 @@ models :
         description: Nome do país.
       - name: capital
         description: Capital do país.
+
+  - name: test_table
+    description: "**Descrição**: Tabela com as informações dos usuários.\ 
+    Utilizado como exemplo para a Formação Infra 2022 do Escritório de Dados do Rio de Janeiro\n\ 
+    **Frequência de atualização**: Não possui"
