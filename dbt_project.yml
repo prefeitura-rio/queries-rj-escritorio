@@ -23,6 +23,11 @@ clean-targets: # directories to be removed by `dbt clean`
   - "target"
   - "dbt_modules"
 
+vars:
+  ELEMENTOS_DATA_INICIAL: "2022-01-03"
+  ELEMENTOS_LISTA: ["water", "earth", "air", "fire"]
+  PAISES_AMERICANOS_LETRA_INICIAL_CAPITAL: "B"
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -45,3 +50,6 @@ models:
     seconserva_buracos:
       +materialized: table
       +schema: seconserva_buracos
+    test_formacao:
+      +materialized: table
+      +schema: test_formacao
