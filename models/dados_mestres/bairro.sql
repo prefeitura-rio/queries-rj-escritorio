@@ -9,7 +9,7 @@ SELECT
     SAFE_CAST(REGEXP_REPLACE(LTRIM(codra ,'0'), r'\.0$', '') AS STRING) id_regiao_administrativa,
     SAFE_CAST(regiao_adm AS STRING) nome_regiao_administrativa,
     SAFE_CAST(area AS FLOAT64) area,
-    SAFE_CAST(shapestlength AS FLOAT64) perimetro, 
+    SAFE_CAST(st_perimetershape AS FLOAT64) perimetro, 
     SAFE_CAST(geometry AS STRING) geometria_wkt,
     SAFE.ST_GEOGFROMTEXT(geometry) geometria # TODO, resolver id_bairro = '004' e converter para GEOGRAPHY
 FROM `rj-escritorio-dev.dados_mestres_staging.bairro`
