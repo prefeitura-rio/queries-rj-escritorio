@@ -1,7 +1,7 @@
 WITH t as (
 SELECT 
     SAFE_CAST(REGEXP_REPLACE(LTRIM(codbairro ,'0') , r'\.0$', '') AS STRING) id_bairro,
-    SAFE_CAST(nome AS STRING) nome,
+    SAFE_CAST(RTRIM(nome) AS STRING) nome,
     SAFE_CAST(REGEXP_REPLACE(LTRIM(area_plane ,'0'), r'\.0$', '') AS STRING) id_area_planejamento,
     SAFE_CAST(REGEXP_REPLACE(LTRIM(cod_rp ,'0'), r'\.0$', '') AS STRING) id_regiao_planejamento,
     SAFE_CAST(rp AS STRING) nome_regiao_planejamento,
