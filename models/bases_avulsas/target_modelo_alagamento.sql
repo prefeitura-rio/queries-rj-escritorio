@@ -20,16 +20,17 @@ WITH
   )
 -- Quantos eventos irão acontecer dali 2h?
 SELECT timestamp_truncado,
-  target_eventos_alag_hora,
-  CASE WHEN SUM(target_eventos_alag_hora) OVER (ORDER BY timestamp_truncado ASC ROWS BETWEEN 1 FOLLOWING AND 6 FOLLOWING) > 1 THEN 1 ELSE 0 END AS target_evento_prox_6_h,
-  LEAD(target_eventos_alag_hora, 2) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_alag_2h,
-  LEAD(target_eventos_alag_hora, 6) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_alag_6h,
-  LEAD(target_eventos_alag_hora, 12) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_alag_12h,
-  LEAD(target_eventos_alag_hora, 24) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_alag_24h,
-  LEAD(eventos_total_hora, 2) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_2h,
-  LEAD(eventos_total_hora, 6) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_6h,
-  LEAD(eventos_total_hora, 12) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_12h,
-  LEAD(eventos_total_hora, 24) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_24h
+  target_eventos_alag_hora,  -- qnt de alagamentos que aconteceram naquela hora
+  CASE WHEN SUM(target_eventos_alag_hora) OVER (ORDER BY timestamp_truncado ASC ROWS BETWEEN 1 FOLLOWING AND 6 FOLLOWING) >= 1 THEN 1 ELSE 0 END AS target_evento_prox_6_h, -- pelo menos um evento dentro das próximas 6h
+  LEAD(target_eventos_alag_hora, 2) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_alag_2h, -- pelo menos um evento acontecendo dali 2h
+  LEAD(target_eventos_alag_hora, 6) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_alag_6h, -- pelo menos um evento acontecendo dali 6h
+  LEAD(target_eventos_alag_hora, 12) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_alag_12h, -- pelo menos um evento acontecendo dali 12h
+  LEAD(target_eventos_alag_hora, 24) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_alag_24h, -- pelo menos um evento acontecendo dali 24h
+  LEAD(eventos_total_hora, 2) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_2h, -- qnt de eventos acontecendo dali 2h
+  LEAD(eventos_total_hora, 6) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_6h, -- qnt de eventos acontecendo dali 6h
+  LEAD(eventos_total_hora, 12) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_12h, -- qnt de eventos acontecendo dali 12h
+  LEAD(eventos_total_hora, 24) OVER (ORDER BY timestamp_truncado ASC) AS target_eventos_24h -- qnt de eventos acontecendo dali 24h
+
 FROM contagem_eventos_hora
 ORDER BY 
     timestamp_truncado
