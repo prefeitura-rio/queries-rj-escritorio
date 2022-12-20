@@ -65,6 +65,7 @@
                 }
             ]
         },
+        "aeis": {},
         "zoneamento_zonas": {
             "title": "Dados Mestres: Zonas",
             "short_description": "Camadas de zoneamento urbano vigente da Secretaria Municipal de Planejamento Urbano (SMPU).",
@@ -236,6 +237,7 @@
                 }
             ]
         },
+        "aeis_bairro_maravilha": {},
         "edificacoes": {
             "title": "Dados Mestres: Edificações",
             "short_description": "Edificações restituídas segundo imagens de 2013, escala 1:2.000.",
