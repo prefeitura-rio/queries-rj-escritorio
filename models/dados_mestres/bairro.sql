@@ -22,11 +22,11 @@ SELECT
   t.nome_regiao_planejamento,
   t.id_regiao_administrativa,
   t.nome_regiao_administrativa,
-  t2.nome subprefeitura,
+  -- t2.nome subprefeitura,
   area,
   perimetro,
   geometry_wkt,
   geometry
 FROM t
-LEFT JOIN `rj-escritorio-dev.dados_mestres.subprefeituras_regiao_adm` t2
-  ON t.id_regiao_administrativa = cast(t2.id_regiao_administrativa as string)
+-- LEFT JOIN `rj-escritorio-dev.dados_mestres.subprefeituras_regiao_adm` t2
+--   ON t.id_regiao_administrativa = cast(t2.id_regiao_administrativa as string)
