@@ -16,5 +16,6 @@ SELECT
     SAFE_CAST(np_fin_imp AS INT64) final_numero_porta_impar,
     SAFE_CAST(hierarquia AS STRING) hierarquia,
     SAFE_CAST(REGEXP_REPLACE(LTRIM(chavegeo_tr ,'0'), r'\.0$', '') AS STRING) id_chavegeo,
-    ST_GEOGFROMTEXT(geometry) AS geometry,
+    SAFE_CAST(geometry_wkt AS STRING) geometry_wkt,
+    SAFE.ST_GEOGFROMTEXT(geometry) geometry
 FROM `rj-escritorio-dev.dados_mestres_staging.logradouro` 

@@ -10,5 +10,6 @@ SELECT
     SAFE_CAST(REGEXP_REPLACE(st_areashape, r',', '.') AS FLOAT64) AS area,
     SAFE_CAST(REGEXP_REPLACE(shape_leng, r',', '.') AS FLOAT64) AS comprimento,
     SAFE_CAST(REGEXP_REPLACE(st_perimetershape, r',', '.') AS FLOAT64) AS perimetro,
-    ST_GEOGFROMTEXT(geometry) AS geometria,
+    SAFE_CAST(geometry_wkt AS STRING) geometry_wkt,
+    SAFE.ST_GEOGFROMTEXT(geometry) AS geometria,
 FROM rj-escritorio-dev.dados_mestres_staging.zoneamento_zonas AS t

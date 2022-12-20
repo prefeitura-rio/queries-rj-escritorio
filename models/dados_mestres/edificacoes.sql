@@ -10,5 +10,6 @@ SELECT
     SAFE_CAST(REGEXP_REPLACE(altura, r',', '.') AS FLOAT64) AS altura,
     SAFE_CAST(REGEXP_REPLACE(shape__area, r',', '.') AS FLOAT64) AS area,
     SAFE_CAST(REGEXP_REPLACE(shape__length, r',', '.') AS FLOAT64) AS comprimento,
-    SAFE_CAST(geometry AS STRING) AS geometry_wkt, #TODO: CONVERT TO GEOGRAPHY
+    SAFE_CAST(geometry_wkt AS STRING) AS geometry_wkt, 
+    SAFE.ST_GEOGFROMTEXT(geometry) AS geometry, #TODO: CONVERT TO GEOGRAPHY
 FROM rj-escritorio-dev.dados_mestres_staging.edificacoes AS t

@@ -8,5 +8,6 @@ SELECT
     SAFE_CAST(REGEXP_REPLACE(st_perimetershape, r',', '.') AS FLOAT64) AS perimetro,
     SAFE_CAST(TRIM(leg) AS STRING) AS legenda_abreviada,
     SAFE_CAST(TRIM(legenda) AS STRING) AS legenda,
-    SAFE_CAST(geometry AS STRING) AS geometry_wkt, #TODO: CONVERT TO GEOGRAPHY
+    SAFE_CAST(geometry_wkt AS STRING) geometry_wkt,
+    SAFE.ST_GEOGFROMTEXT(geometry) geometry
 FROM rj-escritorio-dev.dados_mestres_staging.zoneamento_subzonas_subsetores AS t
