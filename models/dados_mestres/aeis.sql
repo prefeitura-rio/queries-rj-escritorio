@@ -23,6 +23,5 @@ SELECT
     SAFE_CAST(shape__length AS STRING) comprimento_poligono,
 
     SAFE_CAST(geometry_wkt AS STRING) geometria_wkt, 
-    SAFE.ST_GEOGFROMTEXT(geometry) AS geometry, #TODO: CONVERT TO GEOGRAPHY
-
-FROM `rj-escritorio-dev.dados_mestres.aeis`;
+    SAFE.ST_GEOGFROMTEXT(geometry) AS geometry, 
+FROM `rj-escritorio-dev.dados_mestres.aeis`

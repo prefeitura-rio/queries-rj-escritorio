@@ -22,6 +22,5 @@ SELECT
     SAFE_CAST(shape__length AS STRING) comprimento,
     SAFE_CAST(geometry_wkt AS STRING) geometry_wkt, 
     SAFE.ST_GEOGFROMTEXT(geometry) AS geometry, #TODO: CONVERT TO GEOGRAPHY
-
-FROM `rj-escritorio-dev.dados_mestres.aeis_bairro_maravilha`;
+FROM `rj-escritorio-dev.dados_mestres.aeis_bairro_maravilha`
 

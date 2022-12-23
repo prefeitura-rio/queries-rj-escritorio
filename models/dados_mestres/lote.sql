@@ -9,8 +9,6 @@ SELECT
     SAFE_CAST(cod_trecho AS STRING) id_trecho,  
     SAFE_CAST(shape__area AS STRING) area_poligono, 
     SAFE_CAST(shape__length AS STRING) comprimento_poligono, 
-     
     SAFE_CAST(geometry_wkt AS STRING) geometria_wkt, 
-    SAFE.ST_GEOGFROMTEXT(geometry) AS geometry, #TODO: CONVERT TO GEOGRAPHY
-     
-FROM `rj-escritorio-dev.dados_mestres_staging.lote`;
+    SAFE.ST_GEOGFROMTEXT(geometry) AS geometry,
+FROM `rj-escritorio-dev.dados_mestres_staging.lote`
