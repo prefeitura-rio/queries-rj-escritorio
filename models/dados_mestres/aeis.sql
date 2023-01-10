@@ -22,4 +22,4 @@ SELECT
     SAFE_CAST(shape__length AS STRING) comprimento,
     SAFE_CAST(geometry_wkt AS STRING) geometria_wkt, 
     SAFE.ST_GEOGFROMTEXT(geometry) AS geometry, 
-FROM `rj-escritorio-dev.dados_mestres.aeis`
+FROM `rj-escritorio-dev.dados_mestres_staging.aeis`
