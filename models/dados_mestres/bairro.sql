@@ -12,7 +12,9 @@ SELECT
     SAFE_CAST(geometry AS STRING) geometry_wkt,
     SAFE.ST_GEOGFROMTEXT(geometry) geometry # TODO, resolver id_bairro = '004' e converter para GEOGRAPHY
 FROM `rj-escritorio-dev.dados_mestres_staging.bairro`
-)
+), 
+
+subprefeituras_join as (
 SELECT 
   id_bairro,
   t.nome,
@@ -34,7 +36,31 @@ SELECT
   t.geometry_wkt,
   t.geometry
 FROM t
-LEFT JOIN `rj-escritorio-dev.dados_mestres_staging.subprefeitura` sub 
-  ON ST_CONTAINS(SAFE.ST_GEOGFROMTEXT(sub.geometry), ST_CENTROID(t.geometry))
+LEFT JOIN `rj-escritorio-dev.dados_mestres_staging.subprefeitura` as sub 
+  ON ST_CONTAINS(sub.geometry, ST_CENTROID(t.geometry))
 -- LEFT JOIN `rj-escritorio-dev.dados_mestres.subprefeituras_regiao_adm` t2
---   ON t.id_regiao_administrativa = cast(t2.id_regiao_administrativa as string)
+--   ON t.id_regiao_administrativa = cast(t2.id_regiao_administrativa as string))
+)
+
+
+-- As subprefeituras que constam no mapa do Metabase são:
+-- Centro, Ilhas, Zona Sul, Grande Tijuca, Zona Norte, Jacarepaguá, Barra Da Tijuca e Zona Oeste
+SELECT
+  id_bairro,
+  nome,
+  id_area_planejamento,
+  id_regiao_planejamento,
+  nome_regiao_planejamento,
+  id_regiao_administrativa,
+  nome_regiao_administrativa,
+  CASE
+    WHEN subprefeitura="Ilhas do Governador/Fundão/Paquetá" THEN "Ilhas" 
+    WHEN subprefeitura="Benfica" THEN "Centro" 
+    WHEN subprefeitura="Tijuca" THEN "Grande Tijuca"
+    WHEN subprefeitura="Centro e Centro Histórico" THEN "Centro"
+  ELSE subprefeitura END subprefeitura,
+  area,
+  perimetro,
+  geometry_wkt,
+  geometry
+FROM subprefeituras_join
