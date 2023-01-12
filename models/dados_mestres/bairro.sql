@@ -1,4 +1,3 @@
-
 WITH t as (
 SELECT 
     SAFE_CAST(REGEXP_REPLACE(LTRIM(codbairro ,'0') , r'\.0$', '') AS STRING) id_bairro,
@@ -22,11 +21,20 @@ SELECT
   t.nome_regiao_planejamento,
   t.id_regiao_administrativa,
   t.nome_regiao_administrativa,
+  CASE 
+    WHEN t.nome="Paquetá" THEN "Ilhas do Governador/Fundão/Paquetá" 
+    WHEN t.nome="Benfica" THEN "Centro" 
+    WHEN t.nome="Cidade Universitária" THEN "Ilhas do Governador/Fundão/Paquetá" 
+    WHEN t.nome="Gávea" THEN "Zona Sul"
+    WHEN t.nome="Ipanema" THEN "Zona Sul" 
+  ELSE sub.subprefeitura END subprefeitura,
   -- t2.nome subprefeitura,
-  area,
-  perimetro,
-  geometry_wkt,
-  geometry
+  t.area,
+  t.perimetro,
+  t.geometry_wkt,
+  t.geometry
 FROM t
+LEFT JOIN `rj-escritorio-dev.dados_mestres_staging.subprefeitura` sub 
+  ON ST_CONTAINS(SAFE.ST_GEOGFROMTEXT(sub.geometry), ST_CENTROID(t.geometry))
 -- LEFT JOIN `rj-escritorio-dev.dados_mestres.subprefeituras_regiao_adm` t2
 --   ON t.id_regiao_administrativa = cast(t2.id_regiao_administrativa as string)
