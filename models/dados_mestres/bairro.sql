@@ -37,7 +37,7 @@ SELECT
   t.geometry
 FROM t
 LEFT JOIN `rj-escritorio-dev.dados_mestres_staging.subprefeitura` as sub 
-  ON ST_CONTAINS(sub.geometry, ST_CENTROID(t.geometry))
+  ON ST_CONTAINS(SAFE.ST_GEOGFROMTEXT(sub.geometry), ST_CENTROID(t.geometry))
 -- LEFT JOIN `rj-escritorio-dev.dados_mestres.subprefeituras_regiao_adm` t2
 --   ON t.id_regiao_administrativa = cast(t2.id_regiao_administrativa as string))
 )
