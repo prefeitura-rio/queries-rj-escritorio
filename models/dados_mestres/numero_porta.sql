@@ -20,4 +20,4 @@ SELECT
     SAFE_CAST(TRIM(y) AS STRING) AS y,
     geometry_wkt,
     SAFE.ST_GEOGFROMTEXT(geometry) AS geometry,
-FROM `rj-escritorio-dev.dados_mestres_staging.numero_porta` AS t
+FROM `rj-escritorio-dev.dados_mestres_staging.numero_porta`
