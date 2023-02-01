@@ -23,7 +23,6 @@ SELECT
   t.nome_regiao_planejamento,
   t.id_regiao_administrativa,
   t.nome_regiao_administrativa,
-  t.id_subprefeitura,
   CASE 
     WHEN t.nome="Paquetá" THEN "Ilhas do Governador/Fundão/Paquetá" 
     WHEN t.nome="Benfica" THEN "Centro" 
@@ -54,7 +53,6 @@ SELECT
   nome_regiao_planejamento,
   id_regiao_administrativa,
   nome_regiao_administrativa,
-  id_subprefeitura,
   CASE
     WHEN subprefeitura="Ilhas do Governador/Fundão/Paquetá" THEN "Ilhas" 
     WHEN subprefeitura="Benfica" THEN "Centro" 
