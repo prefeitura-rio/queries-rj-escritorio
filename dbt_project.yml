@@ -53,3 +53,6 @@ models:
     test_formacao:
       +materialized: table
       +schema: test_formacao
+    cetrio:
+      +materialized: table
+      +schema: cetrio
