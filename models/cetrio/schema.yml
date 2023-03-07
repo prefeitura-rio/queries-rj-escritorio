@@ -8,9 +8,9 @@ models :
     **Frequência de atualização**: Diário \n\
     **Cobertura temporal**: De 2020-04-28 até o momento presente. Eventualmente pode \
     haver um atraso por atraso na entrega pelas empresas terceirizadas.\n\
-    **Órgão gestor dos dados**:	CET-Rio - GISV\n \
-    **Publicado por (Nome)**:	Alexandre Ferreira\n \
-    **Publicado por (E-mail)**:	alexandreferreira.br@gmail.com\n \n \
+    **Órgão gestor dos dados**:	CET-Rio - GISV\n\
+    **Publicado por (Nome)**:	Alexandre Ferreira\n\
+    **Publicado por (E-mail)**:	alexandreferreira.br@gmail.com\n\n\
     **Perguntas e Respostas**: \n\
     Quais vieses temos nos dados? \n\
     Em caso de falta de energia numa determinada região o radar fica desativado parando a contagem e a captura de veículos. \
@@ -32,7 +32,7 @@ models :
 
     columns:
       - name: codigo_cet
-        description:
+        description: Código de identificação da cetrio
       - name: logradouro
         description: Logradouro em que o radar se encontra
       - name: bairro
