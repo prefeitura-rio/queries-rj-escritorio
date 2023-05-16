@@ -56,3 +56,6 @@ models:
     cetrio:
       +materialized: table
       +schema: cetrio
+    comunicacao_executiva:
+      +materialized: table
+      +schema: comunicacao_executiva
