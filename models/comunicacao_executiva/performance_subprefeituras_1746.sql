@@ -1,4 +1,4 @@
--- Ranking -> ORDER BY EDP CRES
+    -- Ranking -> ORDER BY EDP CRES
 -- Nome [+ órgão se serviços] 
 -- Variação no ranking (comparado a mes anterior)
 -- Total de Chamados -> TC
@@ -216,6 +216,11 @@ select
     t.ano_mes,
     row_number() over(order by tx_edp desc) ranking,
     variacao_ranking,
+    CASE 
+        WHEN variacao_ranking > 0 THEN CONCAT("↑ +", variacao_ranking)
+        WHEN variacao_ranking < 0 THEN CONCAT("↓ -", variacao_ranking * -1)
+        ELSE CONCAT("   ", variacao_ranking)
+    END variacao_ranking_formatada,
     t.subprefeitura,
     tc,
     estoque,
@@ -237,3 +242,4 @@ join classificao c
 on t.subprefeitura = c.subprefeitura
 where t.ano_mes = date_trunc(date_sub(DATE(CURRENT_DATE()), interval 1 month), month)
 order by tx_edp desc
+
