@@ -3,161 +3,15 @@
         "target_modelo_alagamento": {},
         "features_modelo_alagamento": {}
     },
-    "seconserva_buracos": {
-        "chamados_estruturados": {},
-        "chamados_priorizados": {}
+    "cetrio": {
+        "pit": {}
+    },
+    "comunicacao_executiva": {
+        "data_atualizacao": {},
+        "performance_subprefeituras_1746": {},
+        "performance_geral_1746": {}
     },
     "dados_mestres": {
-        "zoneamento_zonas": {
-            "title": "Dados Mestres: Zonas",
-            "short_description": "Camadas de zoneamento urbano vigente da Secretaria Municipal de Planejamento Urbano (SMPU).",
-            "long_description": "Camadas de zoneamento urbano vigente da Secretaria Municipal de Planejamento Urbano (SMPU).",
-            "update_frequency": "Nunca",
-            "temporal_coverage": "Até data corrente",
-            "data_owner": "Instituto Pereira Passos (IPP) / Secretaria Municipal de Planejamento Urbano (SMPU)",
-            "publisher_name": "Rodrigo Abreu Carvalho",
-            "publisher_email": "abreucarvalho.rodrigo@gmail.com",
-            "tags": [
-                "administração pública",
-                "IPP",
-                "Zoneamento Zonas"
-            ],
-            "categories": [
-                "0128241e3e024872a7eb46848eb7a7be",
-                "48df9fb6643d477bb1bb7bf595915a23"
-            ],
-            "columns": [
-                {
-                    "name": "comprimento",
-                    "description": "Tamanho do shape"
-                },
-                {
-                    "name": "id_objeto",
-                    "description": "ID do objeto"
-                },
-                {
-                    "name": "sigla_zona",
-                    "description": "Sigla da Zona"
-                },
-                {
-                    "name": "tipo_zona",
-                    "description": "Tipo da zona"
-                },
-                {
-                    "name": "nome",
-                    "description": "Nome da zona"
-                },
-                {
-                    "name": "legislacao",
-                    "description": "legislacao"
-                },
-                {
-                    "name": "abreviacao_zona",
-                    "description": "abreviacao da zona"
-                },
-                {
-                    "name": "informacao_complementar",
-                    "description": "informacao complementar"
-                },
-                {
-                    "name": "id_area_planejamento",
-                    "description": "ID da area planejamento"
-                },
-                {
-                    "name": "orig_fid",
-                    "description": "TODO"
-                },
-                {
-                    "name": "urbanismogisadminsmu_zona_1area",
-                    "description": "urbanismogisadminsmu_zona_1area"
-                },
-                {
-                    "name": "area",
-                    "description": "Área da geometria"
-                },
-                {
-                    "name": "perimetro",
-                    "description": "Perimetro"
-                },
-                {
-                    "name": "geometria",
-                    "description": "Poligono"
-                },
-                {
-                    "name": "id_zona",
-                    "description": "ID da zona"
-                }
-            ]
-        },
-        "edificacoes": {
-            "title": "Dados Mestres: Edificações",
-            "short_description": "Edificações restituídas segundo imagens de 2013, escala 1:2.000.",
-            "long_description": "Base geográfica das edificações da cidade, restituídas segundo imagens de levantamento aerofotogramétrico coletadas entre maio e junho de 2013. Contém atributos da altitude da base, do topo e altura.",
-            "update_frequency": "Nunca",
-            "temporal_coverage": "Até data corrente",
-            "data_owner": "Instituto Pereira Passos (IPP)",
-            "publisher_name": "IPP",
-            "publisher_email": "contato.siurb@gmail.com",
-            "tags": [
-                "administração pública",
-                "IPP",
-                "edificações"
-            ],
-            "categories": [
-                "0128241e3e024872a7eb46848eb7a7be",
-                "48df9fb6643d477bb1bb7bf595915a23"
-            ],
-            "columns": [
-                {
-                    "name": "id",
-                    "description": "Não informado"
-                },
-                {
-                    "name": "id_unico",
-                    "description": "Código único para cada edificação."
-                },
-                {
-                    "name": "id_projecao",
-                    "description": "Não informado"
-                },
-                {
-                    "name": "id_lote",
-                    "description": "Código do loteamento onde se encontra a edificação, fornecido pela Prefeitura."
-                },
-                {
-                    "name": "id_logradouro_numero_porta",
-                    "description": "Chave com o código do logradouro e o número de porta de cada edificação, fornecido pela Prefeitura."
-                },
-                {
-                    "name": "tipo",
-                    "description": "Chave com código e o nome do tipo de edificação."
-                },
-                {
-                    "name": "altitude_topo",
-                    "description": "Altitude do topo da edificação em relação ao nível do mar."
-                },
-                {
-                    "name": "altitude_base",
-                    "description": "Altitude da base da edificação em relação ao nível do mar."
-                },
-                {
-                    "name": "altura",
-                    "description": "Altura da edificação, que consiste na diferença entre a altitude do topo e da base."
-                },
-                {
-                    "name": "area",
-                    "description": "Área do polígono que representa a edificação. Tem o mesmo valor do atributo SHAPE.STArea()."
-                },
-                {
-                    "name": "comprimento",
-                    "description": "Perímetro do polígono que representa a edificação."
-                },
-                {
-                    "name": "geometry",
-                    "description": "Geometria"
-                }
-            ]
-        },
         "zoneamento_setores": {
             "title": "Dados Mestres: Setores de Zoneamento Urbano",
             "short_description": "Camadas de zoneamento urbano vigente da Secretaria Municipal de Urbanismo.",
@@ -223,8 +77,213 @@
                 }
             ]
         },
-        "aeis": {},
+        "zoneamento_subzonas_subsetores": {
+            "title": "Dados Mestres: Zoneamento Subzonas e Subsetores",
+            "short_description": "Camadas de subzonas e subsetores urbanos vigentes da Secretaria Municipal de Planejamento Urbano (SMPU).",
+            "long_description": "Camadas de zoneamento urbano vigente da Secretaria Municipal de Planejamento Urbano (SMPU), Subzonas e Subsetores.",
+            "update_frequency": "Nunca",
+            "temporal_coverage": "Até data corrente",
+            "data_owner": "Instituto Pereira Passos (IPP) / Secretaria Municipal de Planejamento Urbano (SMPU)",
+            "publisher_name": "Rodrigo Abreu Carvalho",
+            "publisher_email": "abreucarvalho.rodrigo@gmail.com",
+            "tags": [
+                "administração pública",
+                "IPP",
+                "Zoneamento Subzonas e Subsetores"
+            ],
+            "categories": [
+                "0128241e3e024872a7eb46848eb7a7be",
+                "48df9fb6643d477bb1bb7bf595915a23"
+            ],
+            "columns": [
+                {
+                    "name": "sigla",
+                    "description": "Sigla que define o tipo e subtipo da subzona e do subsetor."
+                },
+                {
+                    "name": "nome",
+                    "description": "Nome da subzona ou do subsetor."
+                },
+                {
+                    "name": "legislacao",
+                    "description": "Legislação que institui a criação das subzonas e dos subsetores."
+                },
+                {
+                    "name": "abreviacao",
+                    "description": "Abreviação do tipo e subtipo da subzona e do subsetor."
+                },
+                {
+                    "name": "legislacao_extenso",
+                    "description": "Legislação que institui as subzonas e os subsetores."
+                },
+                {
+                    "name": "area",
+                    "description": "Área das subzonas e subsetores."
+                },
+                {
+                    "name": "perimetro",
+                    "description": "Perímetro das subzonas e subsetores."
+                },
+                {
+                    "name": "geometry",
+                    "description": "Geometria dos polígonos que definem as subzonas e os subsetores."
+                },
+                {
+                    "name": "legenda_abreviada",
+                    "description": "Legenda abreviada."
+                },
+                {
+                    "name": "legenda",
+                    "description": "Legenda."
+                },
+                {
+                    "name": "id_object",
+                    "description": "Chave identificadora da subzona ou do subsetor."
+                }
+            ]
+        },
+        "subprefeitura": {
+            "title": "Dados Mestres: Subprefeitura",
+            "short_description": "Tabela com as regiões da sub-prefeitura do Rio de Janeiro.",
+            "long_description": "Tabela com as regiões da sub-prefeitura do Rio de Janeiro.",
+            "update_frequency": "Mensal",
+            "temporal_coverage": "Até data corrente",
+            "data_owner": "Instituto Pereira Passos (IPP)",
+            "publisher_name": "Patrícia Catandi",
+            "publisher_email": "patriciabcatandi@gmail.com",
+            "tags": [
+                "bairro",
+                "IPP",
+                "subprefeitura"
+            ],
+            "categories": [
+                "0128241e3e024872a7eb46848eb7a7be"
+            ],
+            "columns": [
+                {
+                    "name": "id_subprefeitura",
+                    "description": "Id da subprefeitura"
+                },
+                {
+                    "name": "subprefeitura",
+                    "description": "Nome da subprefeitura."
+                },
+                {
+                    "name": "area",
+                    "description": "Área em m² da região da subprefeitura."
+                },
+                {
+                    "name": "perimetro",
+                    "description": "Perímetro em metros da região da subprefeitura."
+                },
+                {
+                    "name": "geometry",
+                    "description": "Geometria do bairro no banco do ArcGIS."
+                },
+                {
+                    "name": "geometry_wkt",
+                    "description": "Geometria do região da região no banco do ArcGIS."
+                }
+            ]
+        },
+        "aeis_bairro_maravilha": {
+            "title": "Dados Mestres: aeis_bairro_maravilha",
+            "short_description": "aeis_bairro_maravilha",
+            "long_description": "aeis_bairro_maravilha",
+            "update_frequency": "Nunca",
+            "temporal_coverage": "aeis_bairro_maravilha",
+            "data_owner": "aeis_bairro_maravilha",
+            "publisher_name": "aeis_bairro_maravilha",
+            "publisher_email": "aeis@aeis.com",
+            "tags": [],
+            "categories": [],
+            "columns": []
+        },
+        "numero_porta": {},
+        "aeis": {
+            "title": "Dados Mestres: aeis",
+            "short_description": "aeis",
+            "long_description": "aeis",
+            "update_frequency": "Nunca",
+            "temporal_coverage": "aeis",
+            "data_owner": "aeis",
+            "publisher_name": "aeis",
+            "publisher_email": "aeis@aeis.com",
+            "tags": [],
+            "categories": [],
+            "columns": []
+        },
+        "cres": {},
         "enderecos_geolocalizados": {},
+        "bairro": {
+            "title": "Dados Mestres: Bairros",
+            "short_description": "Bairros da Cidade do Rio de Janeiro.",
+            "long_description": "Bairros da Cidade do Rio de Janeiro.",
+            "update_frequency": "Mensal",
+            "temporal_coverage": "Até a presente data",
+            "data_owner": "Instituto Pereira Passos (IPP) / Câmara dos Vereadores (CMRJ)",
+            "publisher_name": "IPP",
+            "publisher_email": "contato.siurb@gmail.com",
+            "tags": [
+                "bairro",
+                "administração pública",
+                "IPP"
+            ],
+            "categories": [
+                "48df9fb6643d477bb1bb7bf595915a23",
+                "0128241e3e024872a7eb46848eb7a7be"
+            ],
+            "columns": [
+                {
+                    "name": "shape_area",
+                    "description": "Área (m²) do bairro. Calculado automaticamente pelo ArqGis."
+                },
+                {
+                    "name": "id_bairro",
+                    "description": "Código do bairro dado pela prefeitura do Rio de Janeiro."
+                },
+                {
+                    "name": "nome",
+                    "description": "Nome do bairro"
+                },
+                {
+                    "name": "id_area_planejamento",
+                    "description": "Código da área de planejamento onde está localizado a região de planejamento do bairro.\r\nVer atributo nome_regiao_planejamento."
+                },
+                {
+                    "name": "nome_regiao_planejamento",
+                    "description": "Nome da região de planejamento. \r\nDeve respeitar o atributo id_regiao_planejamento."
+                },
+                {
+                    "name": "id_regiao_planejamento",
+                    "description": "Código da região de planejamento onde está localizado o região administrativa do bairro. Ver atributo REGIAO_ADM."
+                },
+                {
+                    "name": "id_regiao_administrativa",
+                    "description": "Código da região administrativa onde está locallizado o bairro."
+                },
+                {
+                    "name": "nome_regiao_administrativa",
+                    "description": "Nome da região administrativa onde está localizado o bairro. \r\nEste atributo deve respeitar o atributo id_regiao_administrativa."
+                },
+                {
+                    "name": "area",
+                    "description": "Área (m²) do bairro. \r\nTem o mesmo valor do atributo SHAPE.STArea()."
+                },
+                {
+                    "name": "perimetro",
+                    "description": "Perímetro (m) do bairro."
+                },
+                {
+                    "name": "geometry",
+                    "description": "Geometria do bairro no banco do ArcGIS."
+                },
+                {
+                    "name": "subprefeitura",
+                    "description": "Nome da subprefeitura a que pertence o bairro."
+                }
+            ]
+        },
         "logradouro": {
             "title": "Dados Mestres: Logradouros",
             "short_description": "Trechos ativos de logradouros do município do Rio de Janeiro.",
@@ -314,134 +373,19 @@
                 }
             ]
         },
-        "lote": {},
-        "bairro": {
-            "title": "Dados Mestres: Bairros",
-            "short_description": "Bairros da Cidade do Rio de Janeiro.",
-            "long_description": "Bairros da Cidade do Rio de Janeiro.",
-            "update_frequency": "Mensal",
-            "temporal_coverage": "Até a presente data",
-            "data_owner": "Instituto Pereira Passos (IPP) / Câmara dos Vereadores (CMRJ)",
+        "edificacoes": {
+            "title": "Dados Mestres: Edificações",
+            "short_description": "Edificações restituídas segundo imagens de 2013, escala 1:2.000.",
+            "long_description": "Base geográfica das edificações da cidade, restituídas segundo imagens de levantamento aerofotogramétrico coletadas entre maio e junho de 2013. Contém atributos da altitude da base, do topo e altura.",
+            "update_frequency": "Nunca",
+            "temporal_coverage": "Até data corrente",
+            "data_owner": "Instituto Pereira Passos (IPP)",
             "publisher_name": "IPP",
             "publisher_email": "contato.siurb@gmail.com",
             "tags": [
-                "bairro",
-                "administração pública",
-                "IPP"
-            ],
-            "categories": [
-                "48df9fb6643d477bb1bb7bf595915a23",
-                "0128241e3e024872a7eb46848eb7a7be"
-            ],
-            "columns": [
-                {
-                    "name": "shape_area",
-                    "description": "Área (m²) do bairro. Calculado automaticamente pelo ArqGis."
-                },
-                {
-                    "name": "id_bairro",
-                    "description": "Código do bairro dado pela prefeitura do Rio de Janeiro."
-                },
-                {
-                    "name": "nome",
-                    "description": "Nome do bairro"
-                },
-                {
-                    "name": "id_area_planejamento",
-                    "description": "Código da área de planejamento onde está localizado a região de planejamento do bairro.\r\nVer atributo nome_regiao_planejamento."
-                },
-                {
-                    "name": "nome_regiao_planejamento",
-                    "description": "Nome da região de planejamento. \r\nDeve respeitar o atributo id_regiao_planejamento."
-                },
-                {
-                    "name": "id_regiao_planejamento",
-                    "description": "Código da região de planejamento onde está localizado o região administrativa do bairro. Ver atributo REGIAO_ADM."
-                },
-                {
-                    "name": "id_regiao_administrativa",
-                    "description": "Código da região administrativa onde está locallizado o bairro."
-                },
-                {
-                    "name": "nome_regiao_administrativa",
-                    "description": "Nome da região administrativa onde está localizado o bairro. \r\nEste atributo deve respeitar o atributo id_regiao_administrativa."
-                },
-                {
-                    "name": "area",
-                    "description": "Área (m²) do bairro. \r\nTem o mesmo valor do atributo SHAPE.STArea()."
-                },
-                {
-                    "name": "perimetro",
-                    "description": "Perímetro (m) do bairro."
-                },
-                {
-                    "name": "geometry",
-                    "description": "Geometria do bairro no banco do ArcGIS."
-                },
-                {
-                    "name": "subprefeitura",
-                    "description": "Nome da subprefeitura a que pertence o bairro."
-                }
-            ]
-        },
-        "aeis_bairro_maravilha": {},
-        "subprefeitura": {
-            "title": "Dados Mestres: Subprefeitura",
-            "short_description": "Tabela com as regiões da sub-prefeitura do Rio de Janeiro.",
-            "long_description": "Tabela com as regiões da sub-prefeitura do Rio de Janeiro.",
-            "update_frequency": "Mensal",
-            "temporal_coverage": "Até data corrente",
-            "data_owner": "Instituto Pereira Passos (IPP)",
-            "publisher_name": "Patrícia Catandi",
-            "publisher_email": "patriciabcatandi@gmail.com",
-            "tags": [
-                "bairro",
-                "IPP",
-                "subprefeitura"
-            ],
-            "categories": [
-                "0128241e3e024872a7eb46848eb7a7be"
-            ],
-            "columns": [
-                {
-                    "name": "id_subprefeitura",
-                    "description": "Id da subprefeitura"
-                },
-                {
-                    "name": "subprefeitura",
-                    "description": "Nome da subprefeitura."
-                },
-                {
-                    "name": "area",
-                    "description": "Área em m² da região da subprefeitura."
-                },
-                {
-                    "name": "perimetro",
-                    "description": "Perímetro em metros da região da subprefeitura."
-                },
-                {
-                    "name": "geometry",
-                    "description": "Geometria do bairro no banco do ArcGIS."
-                },
-                {
-                    "name": "geometry_wkt",
-                    "description": "Geometria do região da região no banco do ArcGIS."
-                }
-            ]
-        },
-        "zoneamento_subzonas_subsetores": {
-            "title": "Dados Mestres: Zoneamento Subzonas e Subsetores",
-            "short_description": "Camadas de subzonas e subsetores urbanos vigentes da Secretaria Municipal de Planejamento Urbano (SMPU).",
-            "long_description": "Camadas de zoneamento urbano vigente da Secretaria Municipal de Planejamento Urbano (SMPU), Subzonas e Subsetores.",
-            "update_frequency": "Nunca",
-            "temporal_coverage": "Até data corrente",
-            "data_owner": "Instituto Pereira Passos (IPP) / Secretaria Municipal de Planejamento Urbano (SMPU)",
-            "publisher_name": "Rodrigo Abreu Carvalho",
-            "publisher_email": "abreucarvalho.rodrigo@gmail.com",
-            "tags": [
                 "administração pública",
                 "IPP",
-                "Zoneamento Subzonas e Subsetores"
+                "edificações"
             ],
             "categories": [
                 "0128241e3e024872a7eb46848eb7a7be",
@@ -449,51 +393,72 @@
             ],
             "columns": [
                 {
-                    "name": "sigla",
-                    "description": "Sigla que define o tipo e subtipo da subzona e do subsetor."
+                    "name": "id",
+                    "description": "Não informado"
                 },
                 {
-                    "name": "nome",
-                    "description": "Nome da subzona ou do subsetor."
+                    "name": "id_unico",
+                    "description": "Código único para cada edificação."
                 },
                 {
-                    "name": "legislacao",
-                    "description": "Legislação que institui a criação das subzonas e dos subsetores."
+                    "name": "id_projecao",
+                    "description": "Não informado"
                 },
                 {
-                    "name": "abreviacao",
-                    "description": "Abreviação do tipo e subtipo da subzona e do subsetor."
+                    "name": "id_lote",
+                    "description": "Código do loteamento onde se encontra a edificação, fornecido pela Prefeitura."
                 },
                 {
-                    "name": "legislacao_extenso",
-                    "description": "Legislação que institui as subzonas e os subsetores."
+                    "name": "id_logradouro_numero_porta",
+                    "description": "Chave com o código do logradouro e o número de porta de cada edificação, fornecido pela Prefeitura."
+                },
+                {
+                    "name": "tipo",
+                    "description": "Chave com código e o nome do tipo de edificação."
+                },
+                {
+                    "name": "altitude_topo",
+                    "description": "Altitude do topo da edificação em relação ao nível do mar."
+                },
+                {
+                    "name": "altitude_base",
+                    "description": "Altitude da base da edificação em relação ao nível do mar."
+                },
+                {
+                    "name": "altura",
+                    "description": "Altura da edificação, que consiste na diferença entre a altitude do topo e da base."
                 },
                 {
                     "name": "area",
-                    "description": "Área das subzonas e subsetores."
+                    "description": "Área do polígono que representa a edificação. Tem o mesmo valor do atributo SHAPE.STArea()."
                 },
                 {
-                    "name": "perimetro",
-                    "description": "Perímetro das subzonas e subsetores."
+                    "name": "comprimento",
+                    "description": "Perímetro do polígono que representa a edificação."
                 },
                 {
                     "name": "geometry",
-                    "description": "Geometria dos polígonos que definem as subzonas e os subsetores."
-                },
-                {
-                    "name": "legenda_abreviada",
-                    "description": "Legenda abreviada."
-                },
-                {
-                    "name": "legenda",
-                    "description": "Legenda."
-                },
-                {
-                    "name": "id_object",
-                    "description": "Chave identificadora da subzona ou do subsetor."
+                    "description": "Geometria"
                 }
             ]
+        },
+        "lote": {
+            "title": "Dados Mestres: lote",
+            "short_description": "lote",
+            "long_description": "lote",
+            "update_frequency": "Nunca",
+            "temporal_coverage": "lote",
+            "data_owner": "lote",
+            "publisher_name": "lote",
+            "publisher_email": "lote@lote.com",
+            "tags": [],
+            "categories": [],
+            "columns": []
         }
+    },
+    "seconserva_buracos": {
+        "chamados_estruturados": {},
+        "chamados_priorizados": {}
     },
     "test_formacao": {
         "elementos": {},
