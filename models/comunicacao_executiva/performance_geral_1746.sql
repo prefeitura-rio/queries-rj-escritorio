@@ -1,12 +1,3 @@
-    -- Ranking -> ORDER BY EDP CRES
--- Nome [+ órgão se serviços] 
--- Variação no ranking (comparado a mes anterior)
--- Total de Chamados -> TC
--- Estoque desde jan/2021 [Estoque]
--- % Encerrado em Geral [(EFP + EDP) / TC] > 100%
--- % Encerrado Dentro do Prazo [EDP / TC] 
--- Ultimos 5 meses de EDP/TC
-
 WITH chamados_tratada AS (
     WITH chamado_basico AS (
         SELECT 
@@ -160,6 +151,8 @@ SELECT
     ano_mes,
     is_critico,
     tc,
+    tc - (LAG(tc,1) OVER (ORDER BY ano_mes)) variacao_total_chamados,
+    edp / tc - (LAG(edp,1) OVER (ORDER BY ano_mes)/(LAG(tc,1) OVER (ORDER BY ano_mes))) variacao_taxa_edp,
     edp,
     edp / tc tx_edp,
     afp,
@@ -171,5 +164,4 @@ SELECT
 FROM chamados_agg
 WHERE is_critico
 ORDER BY ano_mes DESC
-LIMIT 2 -- Apenas os 2 últimos meses
-
+LIMIT 2 -- Apenas os 2 ultimos meses
