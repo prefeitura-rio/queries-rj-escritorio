@@ -23,9 +23,9 @@ WHERE origem_meta = "Plano Estratégico"
 UNION ALL
 
 SELECT 
-  MAX(data_inicio) as data_atualizacao,
+  LAST_DAY(MAX(ano_mes)) as data_atualizacao,
   "1746" as tela
-FROM `rj-segovi.administracao_servicos_publicos.chamado_1746`
+FROM `rj-escritorio-dev.comunicacao_executiva.performance_subprefeituras_1746`
 
 UNION ALL
 
@@ -53,11 +53,19 @@ WHERE total_arrecadado IS NOT NULL AND total_arrecadado != 0 AND NOT IS_NAN(tota
 
 UNION ALL
 
-SELECT
-  MAX(data) as data_atualizacao,
-  "pontos_turisticos" as tela
-FROM `rj-setur.turismo_fluxo_visitantes.pontos_turisticos` 
-WHERE metrica_valor IS NOT NULL AND metrica_valor != 0
+(WITH pt_ultima_atualizacao AS (
+  SELECT
+    ferramenta_turistica,
+    MAX(data) data_atualizacao
+  FROM `rj-setur.turismo_fluxo_visitantes.pontos_turisticos` 
+  WHERE metrica_valor IS NOT NULL AND metrica_valor != 0
+  GROUP BY ferramenta_turistica
+)
+  SELECT
+    MIN(data_atualizacao) as data_atualizacao,
+    "pontos_turisticos" as tela
+  FROM pt_ultima_atualizacao 
+)
 
 UNION ALL
 
