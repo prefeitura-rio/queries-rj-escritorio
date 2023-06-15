@@ -29,11 +29,19 @@ FROM `rj-escritorio-dev.comunicacao_executiva.performance_subprefeituras_1746`
 
 UNION ALL
 
-SELECT
-  MAX(data) as data_atualizacao,
-  "aeroportos" as tela
-FROM `rj-setur.turismo_fluxo_visitantes.aeroportos` 
-WHERE passageiros_total IS NOT NULL
+(WITH aeroportos_ultima_atualizacao AS (
+  SELECT
+    nome_aeroporto,
+    MAX(data) data_atualizacao
+  FROM `rj-setur.turismo_fluxo_visitantes.aeroportos` 
+  WHERE passageiros_total IS NOT NULL AND passageiros_total != 0
+  GROUP BY nome_aeroporto
+)
+  SELECT
+    MIN(data_atualizacao) as data_atualizacao,
+    "aeroportos" as tela
+  FROM aeroportos_ultima_atualizacao 
+)
 
 UNION ALL
 
