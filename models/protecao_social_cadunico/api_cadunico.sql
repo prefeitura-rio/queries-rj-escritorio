@@ -109,7 +109,7 @@ SELECT
   -- domicilio.id_forma_abatecimento_agua_domicilio,
   -- domicilio.id_possui_banheiro_domicilio,
   -- domicilio.id_escoamento_sanitario_domicilio,
-  -- domicilio.id_destino_lixo_domicilio,
+  -- domicilio.id_destino_lixo_domicili o,
   -- domicilio.id_iluminacao_domicilio,
   -- domicilio.id_calcamento_domicilio,
   domicilio.possui_agua_encanada_domicilio,
@@ -164,13 +164,11 @@ LEFT JOIN `rj-smas.protecao_social_cadunico.contato` contato
   WHERE identificacao_primeira_pessoa.data_particao = last_partition.data_particao
   AND identificacao_primeira_pessoa.data_particao >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH)
   AND identificacao_primeira_pessoa.estado_cadastral = "Cadastrado"
-  -- AND cpf in ("00213778718", "23011937729", "07667319790")
-  ORDER BY cpf
+
 )
 SELECT 
     cpf,
     JSON_OBJECT(
-        -- 'cpf', cpf,
         'parentesco', JSON_OBJECT(
             -- 'id_parentesco_responsavel_familia', id_parentesco_responsavel_familia,
             'parentesco_responsavel_familia', parentesco_responsavel_familia,
