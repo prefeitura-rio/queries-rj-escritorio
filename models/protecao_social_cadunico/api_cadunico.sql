@@ -143,9 +143,10 @@ LEFT JOIN `rj-smas.protecao_social_cadunico.condicao_rua` condicao_rua
   ON identificacao_primeira_pessoa.id_familia = condicao_rua.id_familia
   AND identificacao_primeira_pessoa.id_membro_familia = condicao_rua.id_membro_familia
   AND identificacao_primeira_pessoa.data_particao = condicao_rua.data_particao
-LEFT JOIN rj-smas.protecao_social_cadunico.renda renda
+LEFT JOIN `rj-smas.protecao_social_cadunico.renda` renda
   ON identificacao_primeira_pessoa.id_familia = renda.id_familia
   AND identificacao_primeira_pessoa.data_particao = renda.data_particao
+  AND identificacao_primeira_pessoa.id_membro_familia = renda.id_membro_familia
 LEFT JOIN `rj-smas.protecao_social_cadunico.seguranca_alimentar` seguranca_alimentar
   ON identificacao_primeira_pessoa.id_familia = seguranca_alimentar.id_familia
   AND identificacao_primeira_pessoa.data_particao = seguranca_alimentar.data_particao
