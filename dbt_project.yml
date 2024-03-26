@@ -59,3 +59,6 @@ models:
     comunicacao_executiva:
       +materialized: table
       +schema: comunicacao_executiva
+    protecao_social_cadunico:
+      +materialized: table
+      +schema: protecao_social_cadunico
