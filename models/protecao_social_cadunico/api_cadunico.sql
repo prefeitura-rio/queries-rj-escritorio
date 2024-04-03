@@ -162,10 +162,10 @@ LEFT JOIN `rj-smas.protecao_social_cadunico.identificacao_controle` identificaca
 LEFT JOIN `rj-smas.protecao_social_cadunico.contato` contato
   ON identificacao_primeira_pessoa.id_familia = contato.id_familia
   AND identificacao_primeira_pessoa.data_particao = contato.data_particao
-  WHERE identificacao_primeira_pessoa.data_particao = last_partition.data_particao
+WHERE identificacao_primeira_pessoa.data_particao = last_partition.data_particao
   AND identificacao_primeira_pessoa.data_particao >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH)
   AND identificacao_primeira_pessoa.estado_cadastral = "Cadastrado"
-
+  AND documento_pessoa.cpf IS NOT NULL
 )
 SELECT 
     cpf,
