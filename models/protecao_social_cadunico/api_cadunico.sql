@@ -267,33 +267,14 @@ create_json_member AS (
         )
     ) AS json_data
 FROM
-    dados_api_cadunico
--- SELECT 
---     cpf,
---     id_familia,
---     JSON_OBJECT( 
---       -- cpf, JSON_OBJECT( 
---         'parentesco', JSON_OBJECT(
---             'parentesco', parentesco_responsavel_familia
---         ),
---         'identidade', JSON_OBJECT(
---             'nome', nome,
---             'sexo', sexo,
---             'raca_cor', raca_cor
---         )
---     -- )
---      ) AS json_data
--- FROM
---     dados_api_cadunico
-    ),
+    dados_api_cadunico),
 
 create_json_family AS (
   SELECT
     id_familia,
-    CONCAT('{',
-          STRING_AGG(CONCAT('"', cpf, '": ', TO_JSON_STRING(json_data)), ', '),
-          '}') AS json_agregado
-
+    CONCAT('[',
+          STRING_AGG(CONCAT(TO_JSON_STRING(json_data)), ', '),
+          ']') AS json_agregado
   FROM
     create_json_member
   GROUP BY
@@ -301,7 +282,6 @@ create_json_family AS (
 
 SELECT
   create_json_member.cpf,
-  create_json_family.json_agregado
-  
+  create_json_family.json_agregado AS data  
 FROM create_json_family
 INNER JOIN create_json_member ON create_json_member.id_familia = create_json_family.id_familia
