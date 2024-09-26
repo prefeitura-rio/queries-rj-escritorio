@@ -13,20 +13,17 @@ WITH last_partition AS (
 ,dados_api_cadunico as (  
 SELECT
   DISTINCT
+  identificacao_primeira_pessoa.id_familia,
   documento_pessoa.cpf,
   identificacao_primeira_pessoa.nis,
-  -- identificacao_primeira_pessoa.id_parentesco_responsavel_familia,
   identificacao_primeira_pessoa.parentesco_responsavel_familia,
   identificacao_primeira_pessoa.nome,
   identificacao_primeira_pessoa.apelido,
   identificacao_primeira_pessoa.data_nascimento,
-  -- identificacao_primeira_pessoa.id_sexo,
   identificacao_primeira_pessoa.sexo,
-  -- identificacao_primeira_pessoa.id_raca_cor,
   identificacao_primeira_pessoa.raca_cor,
   identificacao_primeira_pessoa.nome_pai,
   identificacao_primeira_pessoa.nome_mae,
-  -- documento_pessoa.id_certidao_civil,
   documento_pessoa.certidao_civil,
   identificacao_primeira_pessoa.pais_nascimento,
   identificacao_primeira_pessoa.sigla_uf_municipio_nascimento,
@@ -35,11 +32,8 @@ SELECT
   condicao_rua.dorme_rua,
   seguranca_alimentar.snas_bpc_deficiente,
   seguranca_alimentar.snas_bpc_idoso,
-  -- familia.id_familia_indigena,
   familia.familia_indigena,
-  -- familia.id_familia_quilombola,
   familia.familia_quilombola,
-  -- pessoa_deficiencia.id_tem_deficiencia,
   pessoa_deficiencia.tem_deficiencia,
   pessoa_deficiencia.deficiencia_cegueira,
   pessoa_deficiencia.deficiencia_baixa_visao,
@@ -54,8 +48,6 @@ SELECT
   documento_pessoa.data_emissao_certidao,
   documento_pessoa.sigla_uf_certidao,
   documento_pessoa.municipio_certidao,
-  -- documento_pessoa.id_municipio_certidao,
-  -- documento_pessoa.id_cartorio_certidao,
   documento_pessoa.cartorio_certidao,
   documento_pessoa.id_complemento_rg,
   documento_pessoa.data_emissao_rg,
@@ -77,41 +69,26 @@ SELECT
   identificacao_controle.complemento_adicional,
   identificacao_controle.unidade_territorial,
   identificacao_controle.refencia_logradouro,
-  -- domicilio.id_especie_domicilio,
   domicilio.especie_domicilio,
   domicilio.quantidade_comodos_domicilio,
   domicilio.quantidade_comodos_dormitorio,
   familia.pessoas_domicilio,
   familia.familias_domicilio,
-  -- domicilio.id_material_piso_domicilio,
   domicilio.material_piso_domicilio,
-  -- domicilio.id_material_domicilio,
   domicilio.material_domicilio,
   contato.contato_ddd,
   contato.contato_telefone,
-  -- contato.id_contato_tipo,
   contato.contato_tipo,
   contato.contato_2_ddd,
   contato.contato_2_telefone,
-  -- contato.id_contato_2_tipo,
   contato.contato_2_tipo,
   contato.email,
   escolaridade.frequenta_escola,
-  -- escolaridade.id_curso_frequenta,
-  -- escolaridade.id_curso_mais_elevado_frequentou,
-  -- escolaridade.id_ano_serie_frequenta,
   escolaridade.curso_frequenta,
   escolaridade.curso_mais_elevado_frequentou,
   escolaridade.ano_serie_frequenta,
   familia.despesa_aluguel,
   familia.nao_tem_despesa_aluguel,
-  -- domicilio.id_possui_agua_encanada_domicilio,
-  -- domicilio.id_forma_abatecimento_agua_domicilio,
-  -- domicilio.id_possui_banheiro_domicilio,
-  -- domicilio.id_escoamento_sanitario_domicilio,
-  -- domicilio.id_destino_lixo_domicili o,
-  -- domicilio.id_iluminacao_domicilio,
-  -- domicilio.id_calcamento_domicilio,
   domicilio.possui_agua_encanada_domicilio,
   domicilio.forma_abatecimento_agua_domicilio,
   domicilio.possui_banheiro_domicilio,
@@ -120,7 +97,6 @@ SELECT
   domicilio.iluminacao_domicilio,
   domicilio.calcamento_domicilio,
   familia.estabelecimento_saude,
-  -- identificacao_controle.id_condicao_cadastro,
   identificacao_controle.condicao_cadastro
 
 FROM
@@ -162,16 +138,17 @@ LEFT JOIN `rj-smas.protecao_social_cadunico.identificacao_controle` identificaca
 LEFT JOIN `rj-smas.protecao_social_cadunico.contato` contato
   ON identificacao_primeira_pessoa.id_familia = contato.id_familia
   AND identificacao_primeira_pessoa.data_particao = contato.data_particao
-  WHERE identificacao_primeira_pessoa.data_particao = last_partition.data_particao
+WHERE identificacao_primeira_pessoa.data_particao = last_partition.data_particao
   AND identificacao_primeira_pessoa.data_particao >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH)
   AND identificacao_primeira_pessoa.estado_cadastral = "Cadastrado"
-
-)
-SELECT 
+  AND documento_pessoa.cpf IS NOT NULL
+),
+create_json_member AS (
+  SELECT 
     cpf,
+    id_familia,
     JSON_OBJECT(
         'parentesco', JSON_OBJECT(
-            -- 'id_parentesco_responsavel_familia', id_parentesco_responsavel_familia,
             'parentesco_responsavel_familia', parentesco_responsavel_familia,
             'nome_pai', nome_pai,
             'nome_mae', nome_mae
@@ -183,9 +160,6 @@ SELECT
             'sexo', sexo,
             'raca_cor', raca_cor,
             'certidao_civil', certidao_civil
-            -- 'id_sexo', id_sexo,
-            -- 'id_raca_cor', id_raca_cor,
-            -- 'id_certidao_civil', id_certidao_civil
         ),
         'origem_nascimento', JSON_OBJECT(
             'pais_nascimento', pais_nascimento,
@@ -200,11 +174,8 @@ SELECT
         'identificacao_etnica', JSON_OBJECT(
             'familia_indigena', familia_indigena,
             'familia_quilombola', familia_quilombola
-            -- 'id_familia_indigena', id_familia_indigena,
-            -- 'id_familia_quilombola', id_familia_quilombola
         ),
         'deficiencia', JSON_OBJECT(
-            -- 'id_tem_deficiencia', id_tem_deficiencia,
             'tem_deficiencia', tem_deficiencia,
             'deficiencia_cegueira', deficiencia_cegueira,
             'deficiencia_baixa_visao', deficiencia_baixa_visao,
@@ -223,8 +194,6 @@ SELECT
                 'data_emissao_certidao', data_emissao_certidao,
                 'sigla_uf_certidao', sigla_uf_certidao,
                 'municipio_certidao', municipio_certidao,
-                -- 'id_municipio_certidao', id_municipio_certidao,
-                -- 'id_cartorio_certidao', id_cartorio_certidao,
                 'cartorio_certidao', cartorio_certidao,
                 'termi_matricula_certidao', id_termi_matricula_certidao
             ),
@@ -240,7 +209,8 @@ SELECT
                 'data_emissao_rg', data_emissao_rg,
                 'sigla_uf_rg', sigla_uf_rg,
                 'orgao_emissor_rg', orgao_emissor_rg,
-                'rg', rg
+                'rg', rg,
+                'cpf', cpf
             )
         ),
         'endereco', JSON_OBJECT(
@@ -255,9 +225,6 @@ SELECT
             'refencia_logradouro', refencia_logradouro
         ),
         'domicilio', JSON_OBJECT(
-            -- 'id_especie_domicilio', id_especie_domicilio,
-            -- 'id_material_piso_domicilio', id_material_piso_domicilio,
-            -- 'id_material_domicilio', id_material_domicilio,
             'material_piso_domicilio', material_piso_domicilio,
             'material_domicilio', material_domicilio,
             'especie_domicilio', especie_domicilio,
@@ -277,22 +244,12 @@ SELECT
             'destino_lixo_domicilio', destino_lixo_domicilio,
             'iluminacao_domicilio', iluminacao_domicilio,
             'calcamento_domicilio', calcamento_domicilio
-            -- 'id_possui_agua_encanada_domicilio', id_possui_agua_encanada_domicilio,
-            -- 'id_forma_abatecimento_agua_domicilio', id_forma_abatecimento_agua_domicilio,
-            -- 'id_possui_banheiro_domicilio', id_possui_banheiro_domicilio,
-            -- 'id_escoamento_sanitario_domicilio', id_escoamento_sanitario_domicilio,
-            -- 'id_destino_lixo_domicilio', id_destino_lixo_domicilio,
-            -- 'id_iluminacao_domicilio', id_iluminacao_domicilio,
-            -- 'id_calcamento_domicilio', id_calcamento_domicilio
         ),
         'educacao', JSON_OBJECT(
             'frequenta_escola', frequenta_escola,
             'curso_frequenta', curso_frequenta,
             'curso_mais_elevado_frequentou', curso_mais_elevado_frequentou,
             'ano_serie_frequenta', ano_serie_frequenta
-            -- 'id_curso_frequenta', id_curso_frequenta,
-            -- 'id_curso_mais_elevado_frequentou', id_curso_mais_elevado_frequentou,
-            -- 'id_ano_serie_frequenta', id_ano_serie_frequenta
         ),
         'contato', JSON_OBJECT(
             'contato_ddd', contato_ddd,
@@ -301,16 +258,30 @@ SELECT
             'contato_2_telefone', contato_2_telefone,
             'contato_tipo', contato_tipo,
             'contato_2_tipo', contato_2_tipo,
-            -- 'id_contato_tipo', id_contato_tipo,
-            -- 'id_contato_2_tipo', id_contato_2_tipo,
             'email', email
         ),
         'saude', JSON_OBJECT(
             'estabelecimento_saude', estabelecimento_saude,
             'condicao_cadastro', condicao_cadastro,
-            -- 'id_condicao_cadastro', id_condicao_cadastro,
             'cras_crea', cras_creas
         )
-    ) AS data
+    ) AS json_data
 FROM
-    dados_api_cadunico
+    dados_api_cadunico),
+
+create_json_family AS (
+  SELECT
+    id_familia,
+    CONCAT('[',
+          STRING_AGG(CONCAT(TO_JSON_STRING(json_data)), ', '),
+          ']') AS json_agregado
+  FROM
+    create_json_member
+  GROUP BY
+    id_familia)
+
+SELECT
+  create_json_member.cpf,
+  create_json_family.json_agregado AS data  
+FROM create_json_family
+INNER JOIN create_json_member ON create_json_member.id_familia = create_json_family.id_familia
